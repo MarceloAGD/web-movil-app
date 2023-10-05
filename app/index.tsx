@@ -1,66 +1,25 @@
-import { StyleSheet, Button, TextInput } from "react-native";
+import { StyleSheet, Button, TextInput, ImageBackground } from "react-native";
 import { useState } from "react";
 import { Text, View } from "../components/Themed";
 import axios from "axios";
-
 import {useRouter} from "expo-router"
+import { theme } from '../constants/theme';
 
-import { useUserStore } from "../components/UserAuth";
-
-export default function Login() {
+export default function StartScreen() {
   const router = useRouter()
-  const [email, setEmail] = useState("diego@gmail.com");
-  const [password, setPassword] = useState("1234");
-  const { accessToken, setAccessToken } = useUserStore();
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      const response = await axios.post(
-        "http://192.168.0.25:4001/user/sign-in",
-        {
-          email,
-          password,
-        }
-      );
-      console.log(response.data);
-      const accessToken = response.data.accessToken;
-      
-      setAccessToken(accessToken);
-      
-      router.replace('/(tabs)');
-
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-    }
-  };
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <Text>Email</Text>
-      <TextInput
-        placeholder="email@email.com"
-        value={email}
-        inputMode="email"
-        onChangeText={(text: string) => setEmail(text)}
-        style={{color: "#fff"}}
-      />
-      <Text>Password</Text>
-      <TextInput
-        placeholder="Password"
-        value={password}
-        inputMode="text"
-        secureTextEntry
-        onChangeText={(text: string) => setPassword(text)}
-        style={{color: "#fff"}}
-      />
-      <Button title="Sign In" onPress={() => signIn(email, password)} />
+ return (
+  <ImageBackground source={require('../assets/background_dot.png')} style={styles.background}>
+  <View style={styles.container}>
+    <Text style={styles.text}>Bienvenido</Text>
+    <View style={styles.button}>
+      <Button title="Login" onPress={() => router.replace('/login')} />
     </View>
-  );
+    <View style={styles.button}>
+    <Button title="Sign In" onPress={() => router.replace('/signIn')} />
+    </View>
+  </View>
+  </ImageBackground>
+ )
 }
 
 const styles = StyleSheet.create({
@@ -69,13 +28,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
+  button: {
+    width: '100%',
+    marginVertical: 10,
+    paddingVertical: 2,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  text: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    lineHeight: 26,
   },
-});
+  background: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: theme.colors.surface,
+  },
+})
