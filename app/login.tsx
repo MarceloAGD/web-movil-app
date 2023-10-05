@@ -1,16 +1,20 @@
-import { StyleSheet, Button, TextInput } from "react-native";
 import { useState } from "react";
-import { Text, View } from "../components/Themed";
 import axios from "axios";
-import {useRouter} from "expo-router"
+import {useRouter} from "expo-router";
+
 import {ENDPOINT_MS_USER} from '@env';
 
 import { useUserStore } from "../components/UserAuth";
+import Header from "../components/Header";
+import Background from "../components/Background";
+import Button from "../components/Button";
+import TextInput from '../components/TextInput';
+import { theme } from "../constants/theme";
 
 export default function Login() {
   const router = useRouter()
-  const [email, setEmail] = useState("diego@gmail.com");
-  const [password, setPassword] = useState("1234");
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
   const { accessToken, setAccessToken } = useUserStore();
 
   const signIn = async (email: string, password: string) => {
@@ -34,48 +38,23 @@ export default function Login() {
     }
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
+    <Background>
+      <Header>Login</Header>
+      <TextInput 
+        label="Email"
+        returnKeyType="next"
+        value={email.value}
+        onChangeText={text => setEmail({ value: text, error: '' })}
       />
-      <Text>Email</Text>
-      <TextInput
-        placeholder="email@email.com"
-        value={email}
-        inputMode="email"
-        onChangeText={(text: string) => setEmail(text)}
-        style={{color: "#fff"}}
-      />
-      <Text>Password</Text>
-      <TextInput
-        placeholder="Password"
-        value={password}
-        inputMode="text"
+      <TextInput 
+        label="Password"
+        returnKeyType="done"
+        value={password.value}
+        onChangeText={text => setPassword({ value: text, error: '' })}
         secureTextEntry
-        onChangeText={(text: string) => setPassword(text)}
-        style={{color: "#fff"}}
       />
-      <Button title="Sign In" onPress={() => signIn(email, password)} />
-    </View>
+      <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => signIn(email.value, password.value)}> Login</Button>
+    </Background>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});

@@ -16,7 +16,11 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
     fontWeight: 'bold',
     paddingVertical: 14,
+    textShadowColor: '#fff',
+    textShadowOffset: {width: 5, height: 2},
+    textShadowRadius: 10
   },
+  
 });
 
 export default memo(Header);
