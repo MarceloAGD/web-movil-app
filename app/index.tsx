@@ -1,24 +1,20 @@
-import { StyleSheet, Button, TextInput, ImageBackground } from "react-native";
+import { StyleSheet} from "react-native";
 import { useState } from "react";
 import { Text, View } from "../components/Themed";
 import axios from "axios";
 import {useRouter} from "expo-router"
 import { theme } from '../constants/theme';
-
+import Background from '../components/Background';
+import Button from '../components/Button';
+import Header from "../components/Header";
 export default function StartScreen() {
   const router = useRouter()
  return (
-  <ImageBackground source={require('../assets/background_dot.png')} style={styles.background}>
-  <View style={styles.container}>
-    <Text style={styles.text}>Bienvenido</Text>
-    <View style={styles.button}>
-      <Button title="Login" onPress={() => router.replace('/login')} />
-    </View>
-    <View style={styles.button}>
-    <Button title="Sign In" onPress={() => router.replace('/signIn')} />
-    </View>
-  </View>
-  </ImageBackground>
+  <Background>
+    <Header>Bienvenido</Header>
+    <Button mode="contained" onPress={() => router.replace('/Login')}> Login</Button>
+    <Button mode="outlined" onPress={() => router.replace('/signIn')}> Sign Up</Button>
+  </Background>
  )
 }
 

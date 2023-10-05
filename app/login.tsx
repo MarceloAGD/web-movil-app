@@ -16,7 +16,7 @@ export default function Login() {
   const signIn = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        `${ENDPOINT_MS_USER}/sign-in`,
+        `${ENDPOINT_MS_USER}/login`,
         {
           email,
           password,
