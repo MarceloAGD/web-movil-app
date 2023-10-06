@@ -10,14 +10,15 @@ import Background from "../components/Background";
 import Button from "../components/Button";
 import TextInput from '../components/TextInput';
 import { theme } from "../constants/theme";
+import BackButton from "../components/BackButton";
 
 export default function Login() {
   const router = useRouter()
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+  const [email, setEmail] = useState({ value: 'marcelo@gmail.com', error: '' });
+  const [password, setPassword] = useState({ value: '1234', error: '' });
   const { accessToken, setAccessToken } = useUserStore();
 
-  const signIn = async (email: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
         `${ENDPOINT_MS_USER}/login`,
@@ -38,7 +39,8 @@ export default function Login() {
     }
   };
   return (
-    <Background>
+    <Background imageSource={require('../assets/background_2.png')}>
+      <BackButton goBack={() => router.replace('/')}/>
       <Header>Login</Header>
       <TextInput 
         label="Email"
@@ -53,7 +55,7 @@ export default function Login() {
         onChangeText={text => setPassword({ value: text, error: '' })}
         secureTextEntry
       />
-      <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => signIn(email.value, password.value)}> Login</Button>
+      <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => login(email.value, password.value)}> Login</Button>
     </Background>
   );
 }

@@ -9,11 +9,12 @@ import { theme } from '../constants/theme';
 
 type Props = {
   children: React.ReactNode;
+  imageSource: any;
 };
 
-const Background = ({ children }: Props) => (
+const Background = ({ children , imageSource}: Props) => (
   <ImageBackground
-    source={require('../assets/background_2.png')}
+    source={imageSource}
     resizeMode="cover"
     style={styles.background}
   >
