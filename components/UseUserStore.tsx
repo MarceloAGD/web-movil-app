@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type UseUserStoreT = {
   accessToken?: string;
+  email?: string;
+  setEmail: (email: string) => void;
   setAccessToken: (accessToken: string) => void;
   removeAccessToken: () => void;
 };
@@ -13,6 +15,7 @@ export const useUserStore = create<UseUserStoreT>()(
     persist(
       (set, get) => ({
         accessToken: undefined,
+        setEmail: (email: string) => set(() => ({email})),
         setAccessToken: (accessToken: string) => set(() => ({ accessToken })),
         removeAccessToken: () => set(() => ({ accessToken: undefined })),
       }),

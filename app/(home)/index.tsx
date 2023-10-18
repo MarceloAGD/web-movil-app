@@ -9,7 +9,7 @@ import Header from "../../components/Header";
 export default function TabOneScreen() {
 
   return (
-    <Background imageSource={require('../../assets/background_dot.png')}>
+    <Background imageSource={require('../../assets/background_5.png')}>
     <Header> Bienvenido al Home!</Header>
       <View
         style={styles.separator}

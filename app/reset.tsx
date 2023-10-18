@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button} from "react-native";
 import axios from "axios";
 import {useRouter} from "expo-router";
 import { ENDPOINT_MS_USER } from "@env";
 import Background from "../components/Background";
 import { theme } from "../constants/theme";
+import Header from "../components/Header";
+import container from "../constants/container";
 
 export default function ResetPassword() {
   const router = useRouter()
@@ -42,24 +44,27 @@ export default function ResetPassword() {
 
   return (
     <Background imageSource={require('../assets/background_2.png')}>
-    <View style={styles.container}>
-      <Text style={styles.title}>Reset Password</Text>
-      <View style={styles.inputContainer}>
+    <View style={container.container}>
+      <Header>Reset Password</Header>
+      <View style={container.inputContainer}>
+      <Text style={container.title}>Recovery code</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Code"
+        style={container.input}
+        placeholder="Recovery code"
         value={code}
         onChangeText={(text) => setCode(text)}
       />
+      <Text style={container.title}>Password</Text>
       <TextInput
-        style={styles.input}
+        style={container.input}
         placeholder="Password"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
+      <Text style={container.title}>Confirm password</Text>
       <TextInput
-        style={styles.input}
+        style={container.input}
         placeholder="Confirm Password"
         secureTextEntry
         value={confirmPassword}
@@ -75,49 +80,3 @@ export default function ResetPassword() {
     </Background>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: 12
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor:"rgba(255,255, 255, 0.8)",
-    marginBottom: 200,
-    marginTop:200,
-    borderRadius: 15,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 16,
-  },
-  input: {
-    backgroundColor: "rgba(255,255, 255, 0.8)",
-    width: 300,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    paddingLeft: 10,
-    marginBottom: 10,
-  },
-  notificationContainer: {
-    marginTop: 10,
-    alignItems: "center",
-  },
-  notification: {
-    fontSize: 16,
-    color: "green",
-    marginBottom: 10,
-  },
-});

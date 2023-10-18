@@ -41,6 +41,7 @@ export default function ResetPassword() {
           onChangeText={(text) => setEmail(text)}
         />
         <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={sendMail} disabled={emailSent}> Continue</Button>
+        <Button textColor={theme.colors.primary } mode="outlined" onPress={router.back}> Cancel</Button>
       </View>
 
       {emailSent && (

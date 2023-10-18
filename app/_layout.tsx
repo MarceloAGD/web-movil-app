@@ -50,7 +50,7 @@ function RootLayoutNav() {
       <Stack initialRouteName='index'>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}} />
-        <Stack.Screen name="signUp" options={{ headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}} />
+        <Stack.Screen name="register" options={{ headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}} />
         <Stack.Screen name="recovery"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
         <Stack.Screen name="reset"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
         <Stack.Screen name="(home)" options={{ headerShown: false }} />

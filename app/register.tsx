@@ -8,11 +8,11 @@ import Button from "../components/Button";
 
 import { theme } from "../constants/theme";
 
-import { useUserStore } from "../components/UserAuth";
+import { useUserStore } from "../components/UseUserStore";
 import { Text } from "../components/Themed";
 import BackButton from "../components/BackButton";
-import { StyleSheet, TextInput, View} from "react-native";
-
+import { TextInput, View} from "react-native";
+import container from "../constants/container";
 export default function SignUp() {
   const router = useRouter()
   const [name, setName] = useState({ value: '', error: '' });
@@ -48,28 +48,36 @@ export default function SignUp() {
   };
   return (
     <Background imageSource={require('../assets/background_2.png')}>
-      <View style={styles.container}>
+      <View style={{marginBottom: 130,marginTop: 130,flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+      backgroundColor:"rgba(255,255, 255, 0.8)",borderRadius: 15,}}>
     <Header>Register</Header>
+    <Text style={container.title}>Name</Text>
       <TextInput 
-        style={styles.input}
+        style={container.input}
         placeholder="Name"
         value={name.value}
         onChangeText={text => setName({ value: text, error: '' })}
       />
+      <Text style={container.title}>Lastname</Text>
       <TextInput 
-        style={styles.input}
+        style={container.input}
         placeholder="Lastname"
         value={lastname.value}
         onChangeText={text => setLastname({ value: text, error: '' })}
       />
+      <Text style={container.title}>Email</Text>
       <TextInput 
-        style={styles.input}
+        style={container.input}
         placeholder="Email"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
       />
+      <Text style={container.title}>Password</Text>
       <TextInput 
-       style={styles.input}
+       style={container.input}
        placeholder="Password"
         value={password.value}
         onChangeText={text => setPassword({ value: text, error: '' })}
@@ -81,48 +89,3 @@ export default function SignUp() {
       </Background>
   );
 }
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: 12
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor:"rgba(255,255, 255, 0.8)",
-    marginBottom: 200,
-    marginTop:200,
-    borderRadius: 15,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 16,
-  },
-  input: {
-    backgroundColor: "rgba(255,255, 255, 0.8)",
-    width: 300,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    paddingLeft: 10,
-    marginBottom: 10,
-  },
-  notificationContainer: {
-    marginTop: 10,
-    alignItems: "center",
-  },
-  notification: {
-    fontSize: 16,
-    color: "green",
-    marginBottom: 10,
-  },
-});
