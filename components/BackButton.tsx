@@ -17,9 +17,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20 + getStatusBarHeight(),
     left: 0,
-    alignSelf: 'center',
-    
-    
+    justifyContent: 'flex-start',
   },
   image: {
     width: 40,

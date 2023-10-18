@@ -5,12 +5,13 @@ import {ENDPOINT_MS_USER} from '@env';
 import Background from "../components/Background";
 import Header from "../components/Header";
 import Button from "../components/Button";
-import TextInput from '../components/TextInput';
+
 import { theme } from "../constants/theme";
 
 import { useUserStore } from "../components/UserAuth";
 import { Text } from "../components/Themed";
 import BackButton from "../components/BackButton";
+import { StyleSheet, TextInput, View} from "react-native";
 
 export default function SignUp() {
   const router = useRouter()
@@ -47,35 +48,81 @@ export default function SignUp() {
   };
   return (
     <Background imageSource={require('../assets/background_2.png')}>
-      <BackButton goBack={() => router.replace('/')}/>
+      <View style={styles.container}>
     <Header>Register</Header>
       <TextInput 
-        label="Name"
-        returnKeyType="next"
+        style={styles.input}
+        placeholder="Name"
         value={name.value}
         onChangeText={text => setName({ value: text, error: '' })}
       />
       <TextInput 
-        label="Lastname"
-        returnKeyType="next"
+        style={styles.input}
+        placeholder="Lastname"
         value={lastname.value}
         onChangeText={text => setLastname({ value: text, error: '' })}
       />
       <TextInput 
-        label="Email"
-        returnKeyType="next"
+        style={styles.input}
+        placeholder="Email"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
       />
       <TextInput 
-        label="Password"
-        returnKeyType="done"
+       style={styles.input}
+       placeholder="Password"
         value={password.value}
         onChangeText={text => setPassword({ value: text, error: '' })}
         secureTextEntry
       />
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => signUp(name.value, lastname.value, email.value, password.value)}> Register</Button>
       <Text>{error}</Text>
+      </View>
       </Background>
   );
 }
+const styles = StyleSheet.create({
+  button: {
+    borderRadius: 12
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor:"rgba(255,255, 255, 0.8)",
+    marginBottom: 200,
+    marginTop:200,
+    borderRadius: 15,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  inputLabel: {
+    fontSize: 16,
+  },
+  input: {
+    backgroundColor: "rgba(255,255, 255, 0.8)",
+    width: 300,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingLeft: 10,
+    marginBottom: 10,
+  },
+  notificationContainer: {
+    marginTop: 10,
+    alignItems: "center",
+  },
+  notification: {
+    fontSize: 16,
+    color: "green",
+    marginBottom: 10,
+  },
+});
