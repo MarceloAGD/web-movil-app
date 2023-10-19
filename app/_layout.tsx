@@ -54,6 +54,7 @@ function RootLayoutNav() {
         <Stack.Screen name="recovery"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
         <Stack.Screen name="reset"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
         <Stack.Screen name="(home)" options={{ headerShown: false }} />
+        <Stack.Screen name="edit-profile" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>

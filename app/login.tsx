@@ -2,14 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import {Link, useRouter} from "expo-router";
 
-import {ENDPOINT_MS_USER} from '@env';
+import {ENDPOINT_MS_AUTH} from '@env';
 
 import { useUserStore } from "../components/UseUserStore";
 import Header from "../components/Header";
 import Background from "../components/Background";
 import Button from "../components/Button";
 import { theme } from "../constants/theme";
-import BackButton from "../components/BackButton";
 import {Text, TextInput, View} from "react-native";
 import container from "../constants/container";
 
@@ -21,7 +20,7 @@ export default function Login() {
   const {email, setEmail } = useUserStore()
   const login = async (emailUser: string, password: string) => {
     try {
-      const response = await axios.post('http://192.168.0.4:4001/auth/login', {
+      const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
         email: emailUser,
         password: password,
       });

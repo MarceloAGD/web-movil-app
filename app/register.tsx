@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import {useRouter} from "expo-router";
-import {ENDPOINT_MS_USER} from '@env';
+import {ENDPOINT_MS_AUTH} from '@env';
 import Background from "../components/Background";
 import Header from "../components/Header";
 import Button from "../components/Button";
@@ -10,9 +10,9 @@ import { theme } from "../constants/theme";
 
 import { useUserStore } from "../components/UseUserStore";
 import { Text } from "../components/Themed";
-import BackButton from "../components/BackButton";
 import { TextInput, View} from "react-native";
 import container from "../constants/container";
+
 export default function SignUp() {
   const router = useRouter()
   const [name, setName] = useState({ value: '', error: '' });
@@ -25,7 +25,7 @@ export default function SignUp() {
   const signUp = async (name: string, lastname: string, email: string, password: string) => {
     try {
       const response = await axios.post(
-        `${ENDPOINT_MS_USER}/sign-up`,
+        `${ENDPOINT_MS_AUTH}/sign-up`,
         {
           name,
           lastname,

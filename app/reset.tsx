@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button} from "react-native";
+import { View, Text, TextInput} from "react-native";
 import axios from "axios";
 import {useRouter} from "expo-router";
-import { ENDPOINT_MS_USER } from "@env";
+import { ENDPOINT_MS_AUTH } from "@env";
 import Background from "../components/Background";
 import { theme } from "../constants/theme";
 import Header from "../components/Header";
 import container from "../constants/container";
+import Button from "../components/Button";
 
 export default function ResetPassword() {
   const router = useRouter()
@@ -19,7 +20,7 @@ export default function ResetPassword() {
 
   const sendMail = async () => {
     try {
-      await axios.post(`${ENDPOINT_MS_USER}/recover`, { email });
+      await axios.post(`${ENDPOINT_MS_AUTH}/recover`, { email });
       setEmailSent(true);
       setNotification("Correo enviado");
     } catch (error) {
@@ -30,7 +31,7 @@ export default function ResetPassword() {
 
   const reset = async () => {
     try {
-      const response = await axios.post(`${ENDPOINT_MS_USER}/reset`, {
+      const response = await axios.post(`${ENDPOINT_MS_AUTH}/reset`, {
         token: code,
         password,
         passwordConfirm: confirmPassword,
@@ -71,10 +72,10 @@ export default function ResetPassword() {
         onChangeText={(text) => setConfirmPassword(text)}
       />
       <Button
-        title="Reset password"
+        mode="contained"
         onPress={reset}
-        color={theme.colors.primary}
-      />
+        style={{backgroundColor:theme.colors.primary}}
+      > Reset password</Button>
       </View>
     </View>
     </Background>

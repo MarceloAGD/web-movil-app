@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet} from "react-native";
 import axios from "axios";
 import {useRouter} from "expo-router";
-import { ENDPOINT_MS_USER } from "@env";
+import { ENDPOINT_MS_AUTH} from "@env";
 import Background from "../components/Background";
 import { theme } from "../constants/theme";
 import Header from "../components/Header";
@@ -17,7 +17,7 @@ export default function ResetPassword() {
 
   const sendMail = async () => {
     try {
-      await axios.post(`${ENDPOINT_MS_USER}/recover`, { email });
+      await axios.post(`${ENDPOINT_MS_AUTH}/recover`, { email });
       setEmailSent(true);
       setNotification("Correo enviado");
       router.push('/reset')
