@@ -10,7 +10,7 @@ import { theme } from "../constants/theme";
 
 import { useUserStore } from "../components/UseUserStore";
 import { Text } from "../components/Themed";
-import { TextInput, View} from "react-native";
+import { KeyboardAvoidingView, TextInput, View} from "react-native";
 import container from "../constants/container";
 
 export default function SignUp() {
@@ -41,18 +41,16 @@ export default function SignUp() {
         router.replace('/(home)');
       }
     } catch (error) {
-      setError('Error al iniciar sesión');
-      console.error("Error al iniciar sesión:", error);
+      setError('Error registering user');
+      console.error("Error registering user:", error);
     }
     
   };
   return (
+    
     <Background imageSource={require('../assets/background_2.png')}>
-      <View style={{marginBottom: 130,marginTop: 130,flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 20,
-      backgroundColor:"rgba(255,255, 255, 0.8)",borderRadius: 15,}}>
+      <KeyboardAvoidingView behavior='height' style={container.container}>
+      
     <Header>Register</Header>
     <Text style={container.title}>Name</Text>
       <TextInput 
@@ -84,8 +82,10 @@ export default function SignUp() {
         secureTextEntry
       />
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => signUp(name.value, lastname.value, email.value, password.value)}> Register</Button>
-      <Text>{error}</Text>
-      </View>
+      <Text style={{color: theme.colors.primary}}>{error}</Text>
+     
+      </KeyboardAvoidingView>
       </Background>
+      
   );
 }
