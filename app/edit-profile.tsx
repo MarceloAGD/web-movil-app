@@ -34,7 +34,7 @@ export default function EditProfile() {
       })
       .then((user) => {
         setName(user.data.name);
-        setLastname(user.data.lastname);
+        setLastname(user.data.lastname);   
       })
       .catch((error) => {
         console.error("Error getting user information:", error);
@@ -46,12 +46,13 @@ export default function EditProfile() {
       await axios.post(
         `${ENDPOINT_MS_USER}/update-user`,
         {
-          name,
-          lastname,
-          email,
+          name: name,
+          lastname: lastname,
+          email: email,
         }
       );
-
+      setError('Profile update!!');
+      router.replace('/(home)/profile/user');
     } catch (error) {
       setError('Error saving changes');
       console.error("Error saving changes:", error);
@@ -68,7 +69,7 @@ export default function EditProfile() {
           newPassword,
         }
       );
-
+      router.replace('/(home)/profile/user');
     } catch (error) {
       setError('Error saving changes');
       console.error("Error saving changes:", error);
@@ -148,7 +149,7 @@ export default function EditProfile() {
         >
           {changePassword ? "Cancel" : "Change Password"}
         </Button>
-        <Text>{error}</Text>
+        <Text style={{color: theme.colors.primary}}>{error}</Text>
       </View>
     </Background>
   );

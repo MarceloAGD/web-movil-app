@@ -1,46 +1,98 @@
-// Importa las librerías necesarias
-import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView} from "react-native";
 import Button from "../../components/Button";
 import Background from "../../components/Background";
 import Header from "../../components/Header";
 import { theme } from "../../constants/theme";
 import { IconButton } from "react-native-paper";
+import { ENDPOINT_MS_TEAM, ENDPOINT_MS_AUTH, ENDPOINT_MS_USER } from "@env";
+import axios from "axios";
+import { useUserStore } from "../../components/UseUserStore";
+import { useRouter } from "expo-router";
 
 const Teams = () => {
+  const router = useRouter();
   const [teamName, setTeamName] = useState("");
-  const [teams, setTeams] = useState(["Equipo 1", "Equipo 2", "Equipo 3"]);
+  const [description, setDescription] = useState('')
+  const [teams, setTeams] = useState([]);
+  const { accessToken, removeAccessToken } = useUserStore();
+  const [id, setId] = useState(0);
+  const { email } = useUserStore();
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    loadUserData();
+    loadTeams();
+  }, [email]);
 
-  const addTeam = () => {
-    if (teamName.trim() !== "") {
-      setTeams([...teams, teamName]);
-      setTeamName("");
+  const loadUserData = async () => {
+    await axios
+      .get(`${ENDPOINT_MS_AUTH}/get-user`, {
+        params: {
+          email: email,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((user) => {
+        setId(user.data.id);
+        setName(user.data.name);
+      })
+      .catch((error) => {
+        console.error("Error getting user information:", error);
+      });
+  };
+
+  const loadTeams = async () => {
+    try {
+      const response = await axios.post(`${ENDPOINT_MS_TEAM}/findTeamsById`, {idCreator: id});
+      const teamsData = response.data;
+      if (teamsData.length > 0) {
+        setTeams(teamsData);
+      }
+      setLoading(false); // Marca la carga como completada
+    } catch (error) {
+      console.error("Error loading teams:", error);
+      setLoading(false); // Marca la carga como completada en caso de error
     }
   };
 
-  const editTeam = (index: number, newName: string) => {
-    const updatedTeams = [...teams];
-    updatedTeams[index] = newName;
-    setTeams(updatedTeams);
+
+  const addTeam = async () => {
+    const response = await axios.post(`${ENDPOINT_MS_TEAM}/createTeam`, {name: teamName, description: description, idCreator: id})
+    const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
+    setTeamName("");
+    setDescription("");
+    loadTeams();
   };
 
-  const deleteTeam = (index: number) => {
+
+  const deleteTeam = async (index: number, idTeam: number) => {
+    await axios.post(`${ENDPOINT_MS_USER}/removeTeamUser`, {teamId:idTeam})
+    await axios.delete(`${ENDPOINT_MS_TEAM}/remove-team`, {params: {id: idTeam}})
     const updatedTeams = [...teams];
-    console.log(updatedTeams);
     updatedTeams.splice(index, 1);
     setTeams(updatedTeams);
   };
 
   return (
-    <Background imageSource={require("../../assets/background_5.png")}>
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior='height' style={styles.container}>
+        
+      <View style={{marginTop: 50}}>
         <Header> Team Management</Header>
-
         <TextInput
           style={styles.input}
-          placeholder="Nombre del equipo"
+          placeholder="Name team"
           value={teamName}
           onChangeText={(text) => setTeamName(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Description team"
+          value={description}
+          onChangeText={(text) => setDescription(text)}
         />
         <Button
           mode="contained"
@@ -49,47 +101,55 @@ const Teams = () => {
         >
           Add team
         </Button>
-
-        {teams.map((team, index) => (
+        </View>
+        <Header> Teams of {name}</Header>
+        {loading ? (
+          <Text>Loading...</Text>
+        ) : teams.length > 0 ? (
+        teams.map((team, index) => (
           <View key={index} style={styles.teamItem}>
             <TextInput
               style={styles.input}
-              value={team}
-              onChangeText={(text) => editTeam(index, text)}
+              value={team.name}
             />
-            <button
-              onClick={() => deleteTeam(index)}
+            <TouchableOpacity
+              onPress={() => deleteTeam(index, team.id)}
               style={{
-                padding: 1,
+                padding: 10,
+                paddingRight: 10,
                 marginLeft: 10,
                 marginTop: -10,
-                width: "39px",
-                height: "39px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: 39,
+                height: 39,
+                backgroundColor: theme.colors.primary, // Estilo de botón
+                borderRadius: 20, // Ajusta según tus preferencias
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <IconButton
                 icon="delete"
                 size={25}
-                iconColor={theme.colors.secondary}
+                iconColor={"#fff"}
               />
-            </button>
-          </View>
-        ))}
-      </View>
-    </Background>
+            </TouchableOpacity>
+            </View>
+            ))
+          ) : (
+            <Text>No teams created</Text>
+          )}
+      </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
+    overflow: 'scroll', /* Agrega barras de desplazamiento si es necesario */
     padding: 20,
     backgroundColor: "white",
-    alignSelf: "stretch",
-    justifyContent: "flex-start",
+    alignSelf: "center",
+    justifyContent: "center",
     marginHorizontal: -25,
   },
   title: {
