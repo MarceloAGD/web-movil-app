@@ -23,6 +23,7 @@ export default function EditProfile() {
   const [newPassword, setNewPassword] = useState(""); // Contraseña nueva
 
   useEffect(() => {
+    
     axios
       .get(`${ENDPOINT_MS_AUTH}/get-user`, {
         params: {
@@ -31,7 +32,15 @@ export default function EditProfile() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      })
+      })/*
+      axios.get('http://10.181.135.64:4001/user/get-user', {
+        params: {
+          email: email,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })*/
       .then((user) => {
         setName(user.data.name);
         setLastname(user.data.lastname);   
@@ -43,14 +52,24 @@ export default function EditProfile() {
   
   const handleUpdateProfile = async () => {
     try {
+      
       await axios.post(
         `${ENDPOINT_MS_USER}/update-user`,
         {
           name: name,
           lastname: lastname,
           email: email,
-        }
+        }/*
+        await axios.post(
+          'http://10.181.135.64:4001/user/update-user',
+          {
+            name: name,
+            lastname: lastname,
+            email: email,
+          }*/
       );
+
+      
       setError('Profile update!!');
       router.replace('/(home)/profile/user');
     } catch (error) {

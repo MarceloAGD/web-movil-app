@@ -25,9 +25,23 @@ export default function User() {
   const { email } = useUserStore();
   const [isEditing, setIsEditing] = useState(false);
 
+  useEffect(() => {
+    loadUserData();
+  }, [email]);
+
   const loadUserData = async () => {
+    /*
     await axios
       .get(`${ENDPOINT_MS_AUTH}/get-user`, {
+        params: {
+          email: email,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })*/
+      await axios
+      .get('http://10.181.135.64:4001/auth/get-user', {
         params: {
           email: email,
         },
@@ -44,10 +58,7 @@ export default function User() {
       });
   };
 
-  useEffect(() => {
-    loadUserData();
-  }, [email]);
-
+  
   const handleLogout = async () => {
     try {
       await removeAccessToken();

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput} from "react-native";
+import { View, Text, TextInput, KeyboardAvoidingView} from "react-native";
 import axios from "axios";
 import {useRouter} from "expo-router";
 import { ENDPOINT_MS_AUTH } from "@env";
@@ -39,13 +39,13 @@ export default function ResetPassword() {
 
       router.replace('/Login');
     } catch (error) {
-      console.error("Error al resetear contraseña:", error);
+      console.error("Error reset password:", error);
     }
   };
 
   return (
     <Background imageSource={require('../assets/background_2.png')}>
-    <View style={container.container}>
+    <KeyboardAvoidingView behavior="height" style={container.container}>
       <Header>Reset Password</Header>
       <View style={container.inputContainer}>
       <Text style={container.title}>Recovery code</Text>
@@ -77,7 +77,7 @@ export default function ResetPassword() {
         style={{backgroundColor:theme.colors.primary}}
       > Reset password</Button>
       </View>
-    </View>
+    </KeyboardAvoidingView>
     </Background>
   );
 }

@@ -21,6 +21,7 @@ export default function SignUp() {
 
   const signUp = async (name: string, lastname: string, email: string, password: string) => {
     try {
+      /*
       const response = await axios.post(
         `${ENDPOINT_MS_USER}/sign-up`,
         {
@@ -28,12 +29,20 @@ export default function SignUp() {
           lastname,
           email,
           password,
-        }
+        }*/
+        const response = await axios.post(
+          'http://10.181.135.64:4001/user/sign-up',
+          {
+            name,
+            lastname,
+            email,
+            password,
+          }
       );
       if(response.data.err){
-        setError('Email ya está registrado');     
+        setError('User already exists');     
       } else {
-        router.replace('/login');
+        router.replace('/');
       }
     } catch (error) {
       setError('Error registering user');

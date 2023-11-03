@@ -10,23 +10,24 @@ import axios from "axios";
 import { useUserStore } from "../../components/UseUserStore";
 import { useRouter } from "expo-router";
 
-const Teams = () => {
+const Teams: React.FC = () => {
   const router = useRouter();
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState('')
   const [teams, setTeams] = useState([]);
   const { accessToken, removeAccessToken } = useUserStore();
-  const [id, setId] = useState(0);
+  const [id, setId] = useState(1);
   const { email } = useUserStore();
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     loadUserData();
-    loadTeams();
+    loadTeams(id);
   }, [email]);
 
   const loadUserData = async () => {
+    /*
     await axios
       .get(`${ENDPOINT_MS_AUTH}/get-user`, {
         params: {
@@ -35,19 +36,33 @@ const Teams = () => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+      })*/
+    await axios
+      .get('http://10.181.135.64:4001/auth/get-user', {
+        params: {
+          email: email,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
       .then((user) => {
+        console.log(user.data.id)
         setId(user.data.id);
         setName(user.data.name);
       })
       .catch((error) => {
         console.error("Error getting user information:", error);
       });
+
+      
   };
 
-  const loadTeams = async () => {
+  const loadTeams = async (id: number) => {
     try {
+      console.log(id) 
       const response = await axios.post(`${ENDPOINT_MS_TEAM}/findTeamsById`, {idCreator: id});
+      //const response = await axios.post('http://10.181.135.64:4002/teams/findTeamsById', {idCreator: id});
       const teamsData = response.data;
       if (teamsData.length > 0) {
         setTeams(teamsData);
@@ -65,7 +80,7 @@ const Teams = () => {
     const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
     setTeamName("");
     setDescription("");
-    loadTeams();
+    loadTeams(id);
   };
 
 
@@ -149,7 +164,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "white",
     alignSelf: "center",
-    justifyContent: "center",
+    justifyContent: 'flex-start',
     marginHorizontal: -25,
   },
   title: {

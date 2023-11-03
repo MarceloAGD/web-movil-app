@@ -14,13 +14,20 @@ import container from "../constants/container";
 
 export default function Login() {
   const router = useRouter()
-  const [emailUser, setEmailUser] = useState({ value: 'marceloguerra215@gmail.com', error: '' });
-  const [password, setPassword] = useState({ value: '2k18.marcelo', error: '' });
+  const [emailUser, setEmailUser] = useState({ value: 'mguerradubo@gmail.com', error: '' });
+  const [password, setPassword] = useState({ value: '1234', error: '' });
   const { accessToken, setAccessToken} = useUserStore();
   const {email, setEmail } = useUserStore()
+  const [error, setError] = useState('');
   const login = async (emailUser: string, password: string) => {
     try {
+      /*
       const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
+        email: emailUser,
+        password: password,
+      });
+      */
+      const response = await axios.post('http://10.181.135.64:4001/auth/login', {
         email: emailUser,
         password: password,
       });
@@ -33,7 +40,8 @@ export default function Login() {
         router.replace('/(home)');
       }
     } catch (error) {
-        console.error("Error al iniciar sesión:", error);
+        setError("Login error")
+        console.error("Login error", error);
       
     }
   };
@@ -59,6 +67,7 @@ export default function Login() {
       />
       <Link style={{fontSize: 18, margin: 15, fontWeight: 'bold', color: theme.colors.primary}} href={'/recovery'}>Reset Password</Link>
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => login(emailUser.value, password.value)}> Login</Button>
+      <Text style={{color: theme.colors.primary}}>{error}</Text>
       </KeyboardAvoidingView>
     </Background>
   );

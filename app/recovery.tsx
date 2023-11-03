@@ -28,7 +28,6 @@ export default function ResetPassword() {
     }
   };
 
-
   return (
     <Background imageSource={require('../assets/background_2.png')}>
     <KeyboardAvoidingView behavior='height' style={styles.container}>
