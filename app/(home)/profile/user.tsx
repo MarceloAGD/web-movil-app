@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import Background from "../../../components/Background";
 import Header from "../../../components/Header";
 import Button from "../../../components/Button";
-
+import { IconButton } from 'react-native-paper';
 import { useUserStore } from "../../../components/UseUserStore";
 import { theme } from "../../../constants/theme";
 import React, { useState, useEffect } from "react";
@@ -16,17 +16,32 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+
 export default function User() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
   const { accessToken, removeAccessToken } = useUserStore();
   const { email } = useUserStore();
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios
+    loadUserData();
+  }, [email]);
+
+  const loadUserData = async () => {
+    /*
+    await axios
       .get(`${ENDPOINT_MS_AUTH}/get-user`, {
+        params: {
+          email: email,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })*/
+      await axios
+      .get('http://10.181.135.64:4001/auth/get-user', {
         params: {
           email: email,
         },
@@ -41,8 +56,9 @@ export default function User() {
       .catch((error) => {
         console.error("Error getting user information:", error);
       });
-  }, [email]);
+  };
 
+  
   const handleLogout = async () => {
     try {
       await removeAccessToken();
@@ -62,7 +78,11 @@ export default function User() {
   return (
     <Background imageSource={require("../../../assets/background_5.png")}>
       <View style={styles.container}>
-        <Image source={"../../../assets/images/perfil.png"} style={styles.profileImage} />
+      <IconButton
+          icon="account" 
+          size={200}
+          iconColor={theme.colors.primary}
+        />
         <Text style={styles.emailText}>{email}</Text>
         <View style={styles.nameContainer}>
           <Text style={styles.nameText}>{name}</Text>

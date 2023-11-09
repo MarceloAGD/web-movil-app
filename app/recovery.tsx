@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet} from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView} from "react-native";
 import axios from "axios";
 import {useRouter} from "expo-router";
 import { ENDPOINT_MS_AUTH} from "@env";
@@ -8,6 +8,7 @@ import { theme } from "../constants/theme";
 import Header from "../components/Header";
 import { MonoText } from "../components/StyledText";
 import Button from "../components/Button";
+import container from "../constants/container";
 
 export default function ResetPassword() {
   const router = useRouter()
@@ -27,10 +28,9 @@ export default function ResetPassword() {
     }
   };
 
-
   return (
     <Background imageSource={require('../assets/background_2.png')}>
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior='height' style={styles.container}>
       <Header>Reset Password</Header>
       <MonoText style={{color: theme.colors.primary, padding: 10}}>Enter your email to send your recovery code</MonoText>
       <View style={styles.inputContainer}>
@@ -40,8 +40,8 @@ export default function ResetPassword() {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={sendMail} disabled={emailSent}> Continue</Button>
-        <Button textColor={theme.colors.primary } mode="outlined" onPress={router.back}> Cancel</Button>
+        <Button style={{...container.button, backgroundColor: theme.colors.primary }} mode="contained" onPress={sendMail} disabled={emailSent}> Continue</Button>
+        <Button style={container.button}textColor={theme.colors.primary } mode="outlined" onPress={router.back}> Cancel</Button>
       </View>
 
       {emailSent && (
@@ -56,7 +56,7 @@ export default function ResetPassword() {
           > Resend</Button>
         </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
     </Background>
   );
 }

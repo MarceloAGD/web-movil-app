@@ -3,7 +3,10 @@ import { theme } from "./theme";
 
 const container= StyleSheet.create({
     button: {
-      borderRadius: 12
+      borderRadius: 12,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center',
     },
     container: {
       flex: 1,
@@ -11,8 +14,8 @@ const container= StyleSheet.create({
       alignItems: 'center',
       padding: 20,
       backgroundColor:"rgba(255,255, 255, 0.8)",
-      marginBottom: 200,
-      marginTop:200,
+      marginBottom: 150,
+      marginTop:150,
       borderRadius: 15,
     },
     title: {

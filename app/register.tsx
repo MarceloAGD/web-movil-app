@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import {useRouter} from "expo-router";
-import {ENDPOINT_MS_AUTH} from '@env';
+import {ENDPOINT_MS_USER} from '@env';
 import Background from "../components/Background";
 import Header from "../components/Header";
 import Button from "../components/Button";
 
 import { theme } from "../constants/theme";
-
-import { useUserStore } from "../components/UseUserStore";
 import { Text } from "../components/Themed";
-import { TextInput, View} from "react-native";
+import { KeyboardAvoidingView, TextInput, View} from "react-native";
 import container from "../constants/container";
 
 export default function SignUp() {
@@ -19,40 +17,44 @@ export default function SignUp() {
   const [lastname, setLastname] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
-  const { accessToken, setAccessToken } = useUserStore();
   const [error, setError] = useState('')
 
   const signUp = async (name: string, lastname: string, email: string, password: string) => {
     try {
+      /*
       const response = await axios.post(
-        `${ENDPOINT_MS_AUTH}/sign-up`,
+        `${ENDPOINT_MS_USER}/sign-up`,
         {
           name,
           lastname,
           email,
           password,
-        }
+        }*/
+        const response = await axios.post(
+          'http://10.181.135.64:4001/user/sign-up',
+          {
+            name,
+            lastname,
+            email,
+            password,
+          }
       );
-      if(!response.data.accessToken){
-        setError('Email ya está registrado');     
+      if(response.data.err){
+        setError('User already exists');     
       } else {
-        const accessToken = response.data.accessToken;
-        setAccessToken(accessToken);
-        router.replace('/(home)');
+        router.replace('/');
       }
     } catch (error) {
-      setError('Error al iniciar sesión');
-      console.error("Error al iniciar sesión:", error);
+      setError('Error registering user');
+      console.error("Error registering user:", error);
     }
     
   };
   return (
+    
     <Background imageSource={require('../assets/background_2.png')}>
-      <View style={{marginBottom: 130,marginTop: 130,flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 20,
-      backgroundColor:"rgba(255,255, 255, 0.8)",borderRadius: 15,}}>
+      <KeyboardAvoidingView behavior='height' style={container.container}>
+      
     <Header>Register</Header>
     <Text style={container.title}>Name</Text>
       <TextInput 
@@ -84,8 +86,10 @@ export default function SignUp() {
         secureTextEntry
       />
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => signUp(name.value, lastname.value, email.value, password.value)}> Register</Button>
-      <Text>{error}</Text>
-      </View>
+      <Text style={{color: theme.colors.primary}}>{error}</Text>
+     
+      </KeyboardAvoidingView>
       </Background>
+      
   );
 }
