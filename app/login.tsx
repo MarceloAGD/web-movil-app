@@ -14,8 +14,8 @@ import container from "../constants/container";
 
 export default function Login() {
   const router = useRouter()
-  const [emailUser, setEmailUser] = useState({ value: 'mguerradubo@gmail.com', error: '' });
-  const [password, setPassword] = useState({ value: '1234', error: '' });
+  const [emailUser, setEmailUser] = useState({ value: 'alexis@gmail.com', error: '' });
+  const [password, setPassword] = useState({ value: '123', error: '' });
   const { accessToken, setAccessToken} = useUserStore();
   const {email, setEmail } = useUserStore()
   const [error, setError] = useState('');
@@ -27,15 +27,21 @@ export default function Login() {
         password: password,
       });
       */
-      const response = await axios.post('http://10.181.135.64:4001/auth/login', {
+      //console.log(accessToken);
+    
+      const response = await axios.post('http://192.168.0.6:4001/auth/login', {
         email: emailUser,
         password: password,
       });
   
       const accessToken = response.data.access_token;
+      console.log(accessToken);
 
       if (accessToken != undefined) {
         setAccessToken(accessToken);
+        console.log("------");
+        console.log(emailUser);
+        console.log("------");
         setEmail(emailUser);
         router.replace('/(home)');
       }

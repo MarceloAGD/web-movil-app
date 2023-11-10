@@ -41,14 +41,7 @@ export default function User() {
         },
       })*/
       await axios
-      .get('http://10.181.135.64:4001/auth/get-user', {
-        params: {
-          email: email,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .post('http://192.168.0.6:4001/auth/get-user', { email })
       .then((user) => {
         setName(user.data.name);
         setLastname(user.data.lastname);

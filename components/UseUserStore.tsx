@@ -16,6 +16,7 @@ export const useUserStore = create<UseUserStoreT>()(
       (set, get) => ({
         accessToken: undefined,
         setEmail: (email: string) => set(() => ({email})),
+        
         setAccessToken: (accessToken: string) => set(() => ({ accessToken })),
         removeAccessToken: () => set(() => ({ accessToken: undefined })),
       }),

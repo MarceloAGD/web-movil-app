@@ -25,14 +25,7 @@ export default function EditProfile() {
   useEffect(() => {
     
     axios
-      .get(`${ENDPOINT_MS_AUTH}/get-user`, {
-        params: {
-          email: email,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })/*
+      .post(`${ENDPOINT_MS_AUTH}/get-user`, { email })/*
       axios.get('http://10.181.135.64:4001/user/get-user', {
         params: {
           email: email,

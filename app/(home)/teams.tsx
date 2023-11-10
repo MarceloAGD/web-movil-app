@@ -5,7 +5,7 @@ import Background from "../../components/Background";
 import Header from "../../components/Header";
 import { theme } from "../../constants/theme";
 import { IconButton } from "react-native-paper";
-import { ENDPOINT_MS_TEAM, ENDPOINT_MS_AUTH, ENDPOINT_MS_USER } from "@env";
+import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER, ENDPOINT_MS_TEAM} from "@env";
 import axios from "axios";
 import { useUserStore } from "../../components/UseUserStore";
 import { useRouter } from "expo-router";
@@ -16,17 +16,23 @@ const Teams: React.FC = () => {
   const [description, setDescription] = useState('')
   const [teams, setTeams] = useState([]);
   const { accessToken, removeAccessToken } = useUserStore();
-  const [id, setId] = useState(1);
+  const [id, setId] = useState();
   const { email } = useUserStore();
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     loadUserData();
-    loadTeams(id);
-  }, [email]);
+    console.log("print de id en useEffect", id);
+    if (id !== undefined) {
+      loadTeams(id);
+    }
+  }, [email, id]);
 
   const loadUserData = async () => {
+    console.log("printiando email antes de llamada a axios");
+    console.log(email);
+    console.log("---");
     /*
     await axios
       .get(`${ENDPOINT_MS_AUTH}/get-user`, {
@@ -38,18 +44,17 @@ const Teams: React.FC = () => {
         },
       })*/
     await axios
-      .get('http://10.181.135.64:4001/auth/get-user', {
-        params: {
-          email: email,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .post('http://192.168.0.6:4001/auth/get-user', {email})
       .then((user) => {
+        console.log("-----");
         console.log(user.data.id)
         setId(user.data.id);
+        console.log("id guardado con setId",id);
+        console.log("deberia ser marcelo")
+        console.log(user.data.name);
+        console.log();
         setName(user.data.name);
+        console.log(user.data.name);
       })
       .catch((error) => {
         console.error("Error getting user information:", error);
@@ -60,7 +65,8 @@ const Teams: React.FC = () => {
 
   const loadTeams = async (id: number) => {
     try {
-      console.log(id) 
+      console.log("print de id en loadTeams");
+      console.log("id que recibe loadTeams:", id) 
       const response = await axios.post(`${ENDPOINT_MS_TEAM}/findTeamsById`, {idCreator: id});
       //const response = await axios.post('http://10.181.135.64:4002/teams/findTeamsById', {idCreator: id});
       const teamsData = response.data;
@@ -80,13 +86,18 @@ const Teams: React.FC = () => {
     const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
     setTeamName("");
     setDescription("");
-    loadTeams(id);
+    if (id !== undefined) {
+      loadTeams(id);
+    }
   };
 
 
   const deleteTeam = async (index: number, idTeam: number) => {
+    console.log("idTeam en delelteTeam:", idTeam);
+    
+    await axios.post(`${ENDPOINT_MS_TEAM}/remove-team/${idTeam}`)
+    
     await axios.post(`${ENDPOINT_MS_USER}/removeTeamUser`, {teamId:idTeam})
-    await axios.delete(`${ENDPOINT_MS_TEAM}/remove-team`, {params: {id: idTeam}})
     const updatedTeams = [...teams];
     updatedTeams.splice(index, 1);
     setTeams(updatedTeams);
