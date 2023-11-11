@@ -29,18 +29,18 @@ export default function Login() {
       */
       //console.log(accessToken);
     
-      const response = await axios.post('http://192.168.0.6:4001/auth/login', {
+      const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
         email: emailUser,
         password: password,
       });
   
       const accessToken = response.data.access_token;
-      console.log(accessToken);
+      console.log("access token:",accessToken);
 
       if (accessToken != undefined) {
         setAccessToken(accessToken);
         console.log("------");
-        console.log(emailUser);
+        console.log("email user: ",emailUser);
         console.log("------");
         setEmail(emailUser);
         router.replace('/(home)');

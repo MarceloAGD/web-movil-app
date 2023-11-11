@@ -41,7 +41,7 @@ export default function User() {
         },
       })*/
       await axios
-      .post('http://192.168.0.6:4001/auth/get-user', { email })
+      .post(`${ENDPOINT_MS_AUTH}/get-user`, { email })
       .then((user) => {
         setName(user.data.name);
         setLastname(user.data.lastname);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView} from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Alert} from "react-native";
 import Button from "../../components/Button";
 import Background from "../../components/Background";
 import Header from "../../components/Header";
@@ -44,7 +44,7 @@ const Teams: React.FC = () => {
         },
       })*/
     await axios
-      .post('http://192.168.0.6:4001/auth/get-user', {email})
+      .post(`${ENDPOINT_MS_AUTH}/get-user`, {email})
       .then((user) => {
         console.log("-----");
         console.log(user.data.id)
@@ -83,7 +83,15 @@ const Teams: React.FC = () => {
 
   const addTeam = async () => {
     const response = await axios.post(`${ENDPOINT_MS_TEAM}/createTeam`, {name: teamName, description: description, idCreator: id})
-    const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
+    //const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
+    if (response.data.success) {
+      console.log("Equipo creado exitosamente");
+      Alert.alert("Equipo creado exitosamente");
+      // Resto del código para cargar los equipos, etc.
+    } else {
+      // El equipo ya existe, muestra una alerta.
+      Alert.alert("Equipo Existente", "El equipo que intentas agregar ya existe.");
+    }
     setTeamName("");
     setDescription("");
     if (id !== undefined) {
@@ -92,17 +100,41 @@ const Teams: React.FC = () => {
   };
 
 
-  const deleteTeam = async (index: number, idTeam: number) => {
-    console.log("idTeam en delelteTeam:", idTeam);
-    
-    await axios.post(`${ENDPOINT_MS_TEAM}/remove-team/${idTeam}`)
-    
-    await axios.post(`${ENDPOINT_MS_USER}/removeTeamUser`, {teamId:idTeam})
-    const updatedTeams = [...teams];
-    updatedTeams.splice(index, 1);
-    setTeams(updatedTeams);
+  const deleteTeam = (index: number, idTeam: number) => {
+    Alert.alert(
+      "Confirmar Eliminación",
+      "¿Estás seguro de que deseas eliminar este equipo?",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => {
+            // El usuario canceló la eliminación, no hagas nada.
+          },
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          onPress: async () => {
+            // El usuario confirmó la eliminación, procede a eliminar el equipo.
+            
+            await axios.post(`${ENDPOINT_MS_TEAM}/remove-team/${idTeam}`)
+            
+            // Actualiza la lista de equipos después de eliminar el equipo.
+            const updatedTeams = [...teams];
+            updatedTeams.splice(index, 1);
+            setTeams(updatedTeams);
+          },
+        },
+      ]
+    );
   };
+  
 
+  interface Team {
+    id: number;
+    name: string;
+  }
+  
   return (
       <KeyboardAvoidingView behavior='height' style={styles.container}>
         
@@ -123,7 +155,17 @@ const Teams: React.FC = () => {
         <Button
           mode="contained"
           style={{ marginBottom: 20, backgroundColor: theme.colors.primary }}
-          onPress={addTeam}
+          onPress={() => {
+            if (teamName.trim() === '') {
+              // El campo de "Name team" está en blanco, muestra una alerta o realiza la acción que desees.
+              // Por ejemplo, aquí se muestra una alerta simple:
+              Alert.alert('Alerta', 'Por favor, ingresa un nombre de equipo.');
+              
+            } else {
+              // El campo de "Name team" no está en blanco, puedes crear el equipo.
+              addTeam();
+            }
+          }}
         >
           Add team
         </Button>
@@ -132,7 +174,7 @@ const Teams: React.FC = () => {
         {loading ? (
           <Text>Loading...</Text>
         ) : teams.length > 0 ? (
-        teams.map((team, index) => (
+        teams.map((team: Team, index) => (
           <View key={index} style={styles.teamItem}>
             <TextInput
               style={styles.input}

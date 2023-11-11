@@ -31,7 +31,7 @@ export default function SignUp() {
           password,
         }*/
         const response = await axios.post(
-          'http://192.168.0.6:4001/user/sign-up',
+          `${ENDPOINT_MS_USER}/sign-up`,
           {
             name,
             lastname,
