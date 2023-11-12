@@ -39,9 +39,6 @@ export default function Login() {
 
       if (accessToken != undefined) {
         setAccessToken(accessToken);
-        console.log("------");
-        console.log("email user: ",emailUser);
-        console.log("------");
         setEmail(emailUser);
         router.replace('/(home)');
       }

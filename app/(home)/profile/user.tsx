@@ -45,6 +45,12 @@ export default function User() {
       .then((user) => {
         setName(user.data.name);
         setLastname(user.data.lastname);
+        const storedUserName = useUserStore().userName;
+        if (storedUserName !== undefined) {
+          setName(storedUserName);
+        } else {
+          setName('')
+        }
       })
       .catch((error) => {
         console.error("Error getting user information:", error);

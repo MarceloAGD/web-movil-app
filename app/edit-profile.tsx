@@ -12,10 +12,12 @@ import { theme } from "../constants/theme";
 import { useUserStore } from "../components/UseUserStore";
 import { Text } from "../components/Themed";
 
+
 export default function EditProfile() {
   const router = useRouter();
   const { accessToken, setAccessToken, email } = useUserStore();
   const [name, setName] = useState('');
+  //const [userName, setUserName] = useUserStore();
   const [lastname, setLastname] = useState('');
   const [error, setError] = useState('');
   const [changePassword, setChangePassword] = useState(false); // Estado para mostrar u ocultar los campos de cambio de contraseña
@@ -36,6 +38,8 @@ export default function EditProfile() {
       })*/
       .then((user) => {
         setName(user.data.name);
+        
+
         setLastname(user.data.lastname);   
       })
       .catch((error) => {
@@ -61,10 +65,17 @@ export default function EditProfile() {
             email: email,
           }*/
       );
+      useUserStore.setState({
+        email: email,
+        userName: name,
+      })
 
       
       setError('Profile update!!');
-      router.replace('/(home)/profile/user');
+
+      setTimeout(() => {
+        router.replace('/(home)/profile/user');
+      }, 3000);
     } catch (error) {
       setError('Error saving changes');
       console.error("Error saving changes:", error);
@@ -73,7 +84,7 @@ export default function EditProfile() {
 
   const handleChangePassword = async () => {
     try {
-      await axios.post(
+      const isUpdated = await axios.post(
         `${ENDPOINT_MS_USER}/update-password`,
         {
           email,
@@ -81,11 +92,25 @@ export default function EditProfile() {
           newPassword,
         }
       );
-      router.replace('/(home)/profile/user');
+      console.log("isUpdated?:",isUpdated);
+      if(isUpdated.data){
+        setError('password updated');
+      }if(!isUpdated.data){
+        setError('error updating password');
+      }
+      
+      setTimeout(() => {
+        router.replace('/(home)/profile/user');
+      }, 3000);
     } catch (error) {
       setError('Error saving changes');
       console.error("Error saving changes:", error);
     }
+  };
+
+  const setChangePasswordAndsetError = async () => {
+    setChangePassword(!changePassword);
+    setError('');
   };
 
   return (
@@ -105,6 +130,7 @@ export default function EditProfile() {
         <Header>Edit Profile</Header>
         {changePassword ? (
           <>
+            
             <Text style={container.title}>Old Password</Text>
             <TextInput
               style={container.input}
@@ -126,8 +152,9 @@ export default function EditProfile() {
               mode="contained"
               onPress={handleChangePassword}
             >
-              Change Password
+              Save Password
             </Button>
+            
           </>
         ) : (
           <>
@@ -157,7 +184,7 @@ export default function EditProfile() {
         <Button
           textColor={theme.colors.primary}
           mode="outlined"
-          onPress={() => setChangePassword(!changePassword)}
+          onPress={setChangePasswordAndsetError}
         >
           {changePassword ? "Cancel" : "Change Password"}
         </Button>
