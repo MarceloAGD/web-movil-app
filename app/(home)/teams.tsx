@@ -9,6 +9,9 @@ import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER, ENDPOINT_MS_TEAM} from "@env";
 import axios from "axios";
 import { useUserStore } from "../../components/UseUserStore";
 import { useRouter } from "expo-router";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { styles } from '../../constants/style';
+
 
 const Teams: React.FC = () => {
   const router = useRouter();
@@ -134,6 +137,12 @@ const Teams: React.FC = () => {
     id: number;
     name: string;
   }
+
+  const handleAddMember = (idTeam: number) => {
+    useUserStore.setState({ idTeam });
+    router.replace('/addMember');
+
+  }
   
   return (
       <KeyboardAvoidingView behavior='height' style={styles.container}>
@@ -180,6 +189,29 @@ const Teams: React.FC = () => {
               style={styles.input}
               value={team.name}
             />
+             
+            <TouchableOpacity
+              onPress={() => handleAddMember(team.id)}
+              style={{
+                padding: 10,
+                paddingRight: 10,
+                marginLeft: 10,
+                marginTop: -10,
+                width: 39,
+                height: 39,
+                backgroundColor: theme.colors.primary, // Estilo de botón
+                borderRadius: 20, // Ajusta según tus preferencias
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Icon
+                name="user-plus"
+                size={15}
+                color={"#fff"}
+              />
+            </TouchableOpacity>
+
             <TouchableOpacity
               onPress={() => deleteTeam(index, team.id)}
               style={{
@@ -200,7 +232,8 @@ const Teams: React.FC = () => {
                 size={25}
                 iconColor={"#fff"}
               />
-            </TouchableOpacity>
+            </TouchableOpacity>  
+
             </View>
             ))
           ) : (
@@ -210,49 +243,6 @@ const Teams: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    overflow: 'scroll', /* Agrega barras de desplazamiento si es necesario */
-    padding: 20,
-    backgroundColor: "white",
-    alignSelf: "center",
-    justifyContent: 'flex-start',
-    marginHorizontal: -25,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  input: {
-    backgroundColor: "rgba(255,255, 255, 0.8)",
-    width: 300,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    paddingLeft: 10,
-    marginBottom: 10,
-  },
-  addButton: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-  },
-  teamItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  rowContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-});
+
 
 export default Teams;

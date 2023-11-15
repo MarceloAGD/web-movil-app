@@ -6,9 +6,11 @@ export type UseUserStoreT = {
   accessToken?: string;
   email?: string;
   userName?: string;
+  idTeam?: number; 
   setEmail: (email: string) => void;
   setAccessToken: (accessToken: string) => void;
   setUserName: (userName: string) => void;
+  setIdTeam: (idTeam: number) => void;
   removeAccessToken: () => void;
 };
 
@@ -17,10 +19,13 @@ export const useUserStore = create<UseUserStoreT>()(
     persist(
       (set, get) => ({
         accessToken: undefined,
-        setEmail: (email: string) => set(() => ({email})),
-        
+        email: undefined,
+        userName: undefined,
+        idTeam: undefined,
+        setEmail: (email: string) => set(() => ({ email })),
         setAccessToken: (accessToken: string) => set(() => ({ accessToken })),
-        setUserName: (userName: string) => set(() =>({userName}) ),
+        setUserName: (userName: string) => set(() => ({ userName })),
+        setIdTeam: (idTeam: number) => set(() => ({ idTeam })),
         removeAccessToken: () => set(() => ({ accessToken: undefined })),
       }),
       {
