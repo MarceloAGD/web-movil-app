@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView} from "react-native";
 import axios from "axios";
-import {useRouter} from "expo-router";
+import {Link, useRouter} from "expo-router";
 import { ENDPOINT_MS_AUTH} from "@env";
-import Background from "../components/Background";
-import { theme } from "../constants/theme";
-import Header from "../components/Header";
-import { MonoText } from "../components/StyledText";
-import Button from "../components/Button";
-import container from "../constants/container";
+import Background from "../../components/Background";
+import { theme } from "../../constants/theme";
+import Header from "../../components/Header";
+import { MonoText } from "../../components/StyledText";
+import Button from "../../components/Button";
+import container from "../../constants/container";
 
 export default function ResetPassword() {
   const router = useRouter()
   const [email, setEmail] = useState("");
-  const [emailSent, setEmailSent] = useState(false);
+  const [emailSent, setEmailSent] = useState(true);
   const [notification, setNotification] = useState("");
 
   const sendMail = async () => {
@@ -21,7 +21,7 @@ export default function ResetPassword() {
       await axios.post(`${ENDPOINT_MS_AUTH}/recover`, { email });
       setEmailSent(true);
       setNotification("Correo enviado");
-      router.push('/reset')
+      router.push('/signIn/reset');
     } catch (error) {
       console.error("Error al enviar código", error);
       setNotification("Error al enviar el código");
@@ -29,7 +29,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <Background imageSource={require('../assets/background_2.png')}>
+    <Background imageSource={require('../../assets/background_2.png')}>
     <KeyboardAvoidingView behavior='height' style={styles.container}>
       <Header>Reset Password</Header>
       <MonoText style={{color: theme.colors.primary, padding: 10}}>Enter your email to send your recovery code</MonoText>
@@ -40,22 +40,15 @@ export default function ResetPassword() {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <Button style={{...container.button, backgroundColor: theme.colors.primary }} mode="contained" onPress={sendMail} disabled={emailSent}> Continue</Button>
-        <Button style={container.button}textColor={theme.colors.primary } mode="outlined" onPress={router.back}> Cancel</Button>
+        <Button style={{...container.button, backgroundColor: theme.colors.primary }} mode="contained" onPress={sendMail} > <Link href={{
+        pathname: '/signIn/reset',
+        params: { email: email },
+      }}>Continue
+      </Link></Button>
+        <Button style={container.button}textColor={theme.colors.primary } mode="outlined" onPress={() => router.replace('/')}> Cancel</Button>
       </View>
 
-      {emailSent && (
-        <View style={styles.notificationContainer}>
-          <Text style={styles.notification}>{notification}</Text>
-          <Button
-            style={{backgroundColor: theme.colors.primary }}
-            onPress={() => {
-              setEmailSent(false);
-              setNotification("");
-            }}
-          > Resend</Button>
-        </View>
-      )}
+      <Text style={styles.notification}>{notification}</Text>
     </KeyboardAvoidingView>
     </Background>
   );

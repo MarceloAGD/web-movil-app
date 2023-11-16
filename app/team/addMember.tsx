@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Alert} from "react-native";
-import Header from "../components/Header";
-import { styles } from '../constants/style';
-import Button from "../components/Button";
-import { theme } from "../constants/theme";
-import { useUserStore } from "../components/UseUserStore";
+import Header from "../../components/Header";
+import { styles } from '../../constants/style';
+import Button from "../../components/Button";
+import { theme } from "../../constants/theme";
+import { useUserStore } from "../../components/UseUserStore";
 import axios from "axios";
 import {ENDPOINT_MS_TEAM} from '@env';
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 
 
 const addMember: React.FC = () => {
 
     const router = useRouter();
+
     const [newMemberEmail, setNewMemberEmail] = useState("");
-    const storedIdTeam = useUserStore(state => state.idTeam);
+
+    const {storedIdTeam} = useLocalSearchParams<{ storedIdTeam?: string }>();
 
     useEffect(() => {
 

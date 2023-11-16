@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import axios from 'axios';
 import {useRouter} from "expo-router";
 import {ENDPOINT_MS_USER} from '@env';
-import Background from "../components/Background";
-import Header from "../components/Header";
-import Button from "../components/Button";
+import Background from "../../components/Background";
+import Header from "../../components/Header";
+import Button from "../../components/Button";
 
-import { theme } from "../constants/theme";
-import { Text } from "../components/Themed";
+import { theme } from "../../constants/theme";
+import { Text } from "../../components/Themed";
 import { KeyboardAvoidingView, TextInput, View} from "react-native";
-import container from "../constants/container";
+import container from "../../constants/container";
 
 export default function SignUp() {
   const router = useRouter()
@@ -52,7 +52,7 @@ export default function SignUp() {
   };
   return (
     
-    <Background imageSource={require('../assets/background_2.png')}>
+    <Background imageSource={require('../../assets/background_2.png')}>
       <KeyboardAvoidingView behavior='height' style={container.container}>
       
     <Header>Register</Header>

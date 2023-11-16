@@ -2,15 +2,15 @@ import React, { useState, useEffect} from "react";
 import axios from 'axios';
 import { useRouter } from "expo-router";
 import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER} from '@env';
-import Background from "../components/Background";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import BackButton from "../components/BackButton";
+import Background from "../../components/Background";
+import Header from "../../components/Header";
+import Button from "../../components/Button";
+import BackButton from "../../components/BackButton";
 import { TextInput, View } from "react-native";
-import container from "../constants/container";
-import { theme } from "../constants/theme";
-import { useUserStore } from "../components/UseUserStore";
-import { Text } from "../components/Themed";
+import container from "../../constants/container";
+import { theme } from "../../constants/theme";
+import { useUserStore } from "../../components/UseUserStore";
+import { Text } from "../../components/Themed";
 
 
 export default function EditProfile() {
@@ -74,7 +74,7 @@ export default function EditProfile() {
       setError('Profile update!!');
 
       setTimeout(() => {
-        router.replace('/(home)/profile/user');
+        router.replace('/(home)/user');
       }, 3000);
     } catch (error) {
       setError('Error saving changes');
@@ -100,7 +100,7 @@ export default function EditProfile() {
       }
       
       setTimeout(() => {
-        router.replace('/(home)/profile/user');
+        router.replace('/(home)/user');
       }, 3000);
     } catch (error) {
       setError('Error saving changes');
@@ -114,7 +114,7 @@ export default function EditProfile() {
   };
 
   return (
-    <Background imageSource={require("../assets/background_5.png")}>
+    <Background imageSource={require("../../assets/background_5.png")}>
       <View
         style={{
           marginBottom: 130,
