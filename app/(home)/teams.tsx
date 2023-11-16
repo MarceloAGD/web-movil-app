@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Alert} from "react-native";
 import Button from "../../components/Button";
-import Background from "../../components/Background";
 import Header from "../../components/Header";
 import { theme } from "../../constants/theme";
 import { IconButton } from "react-native-paper";
 import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER, ENDPOINT_MS_TEAM} from "@env";
 import axios from "axios";
 import { useUserStore } from "../../components/UseUserStore";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { styles } from '../../constants/style';
 
@@ -140,7 +139,7 @@ const Teams: React.FC = () => {
 
   const handleAddMember = (idTeam: number) => {
     useUserStore.setState({ idTeam });
-    router.replace('/addMember');
+    router.push('/team/addMember');
 
   }
   
@@ -190,8 +189,11 @@ const Teams: React.FC = () => {
               value={team.name}
             />
              
-            <TouchableOpacity
-              onPress={() => handleAddMember(team.id)}
+            <Link
+              href={{
+                pathname: '/team/addMember',
+                params: {id: team.id},
+              }}
               style={{
                 padding: 10,
                 paddingRight: 10,
@@ -210,7 +212,7 @@ const Teams: React.FC = () => {
                 size={15}
                 color={"#fff"}
               />
-            </TouchableOpacity>
+            </Link>
 
             <TouchableOpacity
               onPress={() => deleteTeam(index, team.id)}

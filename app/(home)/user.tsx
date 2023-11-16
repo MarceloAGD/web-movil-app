@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
-import Background from "../../../components/Background";
-import Header from "../../../components/Header";
-import Button from "../../../components/Button";
+import Background from "../../components/Background";
+import Header from "../../components/Header";
+import Button from "../../components/Button";
 import { IconButton } from 'react-native-paper';
-import { useUserStore } from "../../../components/UseUserStore";
-import { theme } from "../../../constants/theme";
+import { useUserStore } from "../../components/UseUserStore";
+import { theme } from "../../constants/theme";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ENDPOINT_MS_AUTH } from "@env";
@@ -75,7 +75,7 @@ export default function User() {
   };
 
   return (
-    <Background imageSource={require("../../../assets/background_5.png")}>
+    <Background imageSource={require("../../assets/background_5.png")}>
       <View style={styles.container}>
       <IconButton
           icon="account" 
@@ -90,7 +90,7 @@ export default function User() {
         <Button
           style={{backgroundColor: theme.colors.primary }}
           mode="contained"
-          onPress={() => router.push('/edit-profile')}
+          onPress={() => router.push('/profile/edit-profile')}
         >
           Edit profile
         </Button>
