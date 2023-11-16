@@ -49,12 +49,15 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}>
       <Stack initialRouteName='index'>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}} />
-        <Stack.Screen name="register" options={{ headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}} />
-        <Stack.Screen name="recovery"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
-        <Stack.Screen name="reset"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
+        <Stack.Screen name="signIn/login" options={{ headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}} />
+        <Stack.Screen name="signIn/register" options={{ headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}} />
+        <Stack.Screen name="signIn/recovery"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
+        <Stack.Screen name="signIn/reset"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
         <Stack.Screen name="(home)" options={{ headerShown: false }} />
-        <Stack.Screen name="edit-profile" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
+        <Stack.Screen name="profile" options={{ headerShown: false }} />
+        <Stack.Screen name="team" options={{ headerShown: false }} />
+        <Stack.Screen name="team/addMember" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
+        <Stack.Screen name="profile/edit-profile" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
