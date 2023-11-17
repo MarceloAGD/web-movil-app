@@ -18,7 +18,7 @@ const Background = ({ children , imageSource}: Props) => (
     resizeMode="cover"
     style={styles.background}
   >
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView style={styles.container} behavior='height'>
       {children}
     </KeyboardAvoidingView>
   </ImageBackground>

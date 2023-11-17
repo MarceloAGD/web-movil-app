@@ -51,9 +51,8 @@ export default function SignUp() {
     
   };
   return (
-    
-    <Background imageSource={require('../../assets/background_2.png')}>
-      <KeyboardAvoidingView behavior='height' style={container.container}>
+  
+      <KeyboardAvoidingView behavior='height' style={container.container} >
       
     <Header>Register</Header>
     <Text style={container.title}>Name</Text>
@@ -89,7 +88,6 @@ export default function SignUp() {
       <Text style={{color: theme.colors.primary}}>{error}</Text>
      
       </KeyboardAvoidingView>
-      </Background>
       
   );
 }

@@ -29,7 +29,7 @@ export default function Login() {
       */
       //console.log(accessToken);
     
-      const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
+      const response = await axios.post('http://192.168.0.25:4001/auth/login', {
         email: emailUser,
         password: password,
       });
@@ -50,8 +50,8 @@ export default function Login() {
   };
   
   return (
-    <Background imageSource={require('../../assets/background_2.png')}>
-      <KeyboardAvoidingView behavior='height' style={container.container}>
+
+      <KeyboardAvoidingView  behavior='height' style={container.container} keyboardVerticalOffset={0}>
       <Header>Login</Header>
       <Text style={container.title}>Email</Text>
       <TextInput
@@ -72,6 +72,5 @@ export default function Login() {
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => login(emailUser.value, password.value)}> Login</Button>
       <Text style={{color: theme.colors.primary}}>{error}</Text>
       </KeyboardAvoidingView>
-    </Background>
   );
 }
