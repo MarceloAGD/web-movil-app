@@ -4,11 +4,9 @@ import Header from "../../components/Header";
 import { styles } from '../../constants/style';
 import Button from "../../components/Button";
 import { theme } from "../../constants/theme";
-import { useUserStore } from "../../components/UseUserStore";
 import axios from "axios";
 import {ENDPOINT_MS_TEAM} from '@env';
 import { useRouter, useLocalSearchParams } from "expo-router";
-
 
 const addMember: React.FC = () => {
 
@@ -16,19 +14,25 @@ const addMember: React.FC = () => {
 
     const [newMemberEmail, setNewMemberEmail] = useState("");
 
-    const {storedIdTeam} = useLocalSearchParams<{ storedIdTeam?: string }>();
+    const storedIdTeam = useLocalSearchParams<{id: string; storedIdTeam?: string }>();
 
     useEffect(() => {
-
-    })
-
+        loadTeamData();
+    }, [])
+    const loadTeamData = async () => {
+        try{
+            const response = await axios.get(`${ENDPOINT_MS_TEAM}/${storedIdTeam.id}`);
+        console.log("response.data", response.data);
+        }catch(error){
+            console.error('error:', error); }
+    }
     const addNewMember = async () => {
         
         try{
             //TODO: veridicar que el correo exista en la base de datos de usuarios
             const queryResponse = await axios.post(`${ENDPOINT_MS_TEAM}/addMember`, {
             emailNewMember: newMemberEmail,
-            idTeam: storedIdTeam,
+            idTeam: storedIdTeam.id,
 
             });
             
@@ -49,7 +53,6 @@ const addMember: React.FC = () => {
         }catch(error){
             console.error('error:', error);
         }
-        
         
 
     }

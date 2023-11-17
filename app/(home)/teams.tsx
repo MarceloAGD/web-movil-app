@@ -162,7 +162,7 @@ const Teams: React.FC = () => {
         />
         <Button
           mode="contained"
-          style={{ marginBottom: 20, backgroundColor: theme.colors.primary }}
+          style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
           onPress={() => {
             if (teamName.trim() === '') {
               // El campo de "Name team" está en blanco, muestra una alerta o realiza la acción que desees.
@@ -184,16 +184,16 @@ const Teams: React.FC = () => {
         ) : teams.length > 0 ? (
         teams.map((team: Team, index) => (
           <View key={index} style={styles.teamItem}>
-            <TextInput
-              style={styles.input}
-              value={team.name}
-            />
-             
+            <Button
+            mode="contained"
+            style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}>
             <Link
-              href={{
-                pathname: '/team/addMember',
-                params: {id: team.id},
-              }}
+              href={ `/team/editTeam?id=${team.id}`}
+              
+            >{team.name}</Link>
+             </Button>
+            <Link
+              href={ `/team/addMember?id=${team.id}`}
               style={{
                 padding: 10,
                 paddingRight: 10,

@@ -13,9 +13,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: -25,
   },
   title: {
-    fontSize: 24,
+    fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 5,
   },
   input: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
