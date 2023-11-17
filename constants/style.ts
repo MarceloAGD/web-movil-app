@@ -8,9 +8,9 @@ export const styles = StyleSheet.create({
     overflow: 'scroll',
     padding: 20,
     backgroundColor: 'white',
-    alignSelf: 'center',
+    alignSelf: 'auto',
     justifyContent: 'flex-start',
-    marginHorizontal: -25,
+    margin: 10,
   },
   title: {
     fontSize: 15,

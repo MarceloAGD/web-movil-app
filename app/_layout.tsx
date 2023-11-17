@@ -55,7 +55,9 @@ function RootLayoutNav() {
         <Stack.Screen name="signIn/reset"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'white'}}/>
         <Stack.Screen name="(home)" options={{ headerShown: false }} />
         <Stack.Screen name="profile" options={{ headerShown: false }} />
-        <Stack.Screen name="team" options={{ headerShown: false }} />
+        <Stack.Screen name="teams" options={{ headerShown: false }} />
+        <Stack.Screen name="team/teamsOwner" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
+        <Stack.Screen name="team/teamsMember" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="team/editTeam" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="team/addMember" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="profile/edit-profile" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>

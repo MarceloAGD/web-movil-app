@@ -40,13 +40,13 @@ const addMember: React.FC = () => {
                 console.log("se ha añadido el nuevo miembro al team!");
                 Alert.alert("miembro añadido con exito");
                 setTimeout(() => {
-                    router.replace('/(home)/teams');
+                    router.back();
                   }, 2500);
 
             }else{
                 console.log("error añadiendo al nuevo miembro");
                 setTimeout(() => {
-                    router.replace('/(home)/teams');
+                    router.back();
                   }, 2500);
             }
 
