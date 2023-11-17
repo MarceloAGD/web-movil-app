@@ -40,7 +40,7 @@ export default function Login() {
       if (accessToken != undefined) {
         setAccessToken(accessToken);
         setEmail(emailUser);
-        router.replace('/(home)');
+        router.replace('/(home)/projects');
       }
     } catch (error) {
         setError("Login error")

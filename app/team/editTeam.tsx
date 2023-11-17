@@ -83,7 +83,7 @@ const EditTeam: React.FC = () => {
           if (queryResponse) {
             console.log("se ha actualizado el equipo!");
             Alert.alert("equipo actualizado con éxito");
-            loadTeamData();
+            router.replace('/(home)/teams');
           } else {
             console.log("error actualizando el equipo");
           }
