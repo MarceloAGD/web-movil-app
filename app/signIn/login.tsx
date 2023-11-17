@@ -29,7 +29,7 @@ export default function Login() {
       */
       //console.log(accessToken);
     
-      const response = await axios.post('http://192.168.0.25:4001/auth/login', {
+      const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
         email: emailUser,
         password: password,
       });
