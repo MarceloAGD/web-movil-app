@@ -32,9 +32,7 @@ const TeamsOwner: React.FC = () => {
   }, [email, id]);
 
   const loadUserData = async () => {
-    console.log("printiando email antes de llamada a axios");
-    console.log(email);
-    console.log("---");
+
     /*
     await axios
       .get(`${ENDPOINT_MS_AUTH}/get-user`, {
@@ -48,15 +46,10 @@ const TeamsOwner: React.FC = () => {
     await axios
       .post(`${ENDPOINT_MS_AUTH}/get-user`, {email})
       .then((user) => {
-        console.log("-----");
-        console.log(user.data.id)
+
         setId(user.data.id);
-        console.log("id guardado con setId",id);
-        console.log("deberia ser marcelo")
-        console.log(user.data.name);
-        console.log();
+
         setName(user.data.name);
-        console.log(user.data.name);
       })
       .catch((error) => {
         console.error("Error getting user information:", error);
@@ -67,8 +60,6 @@ const TeamsOwner: React.FC = () => {
 
   const loadTeams = async (id: number) => {
     try {
-      console.log("print de id en loadTeams");
-      console.log("id que recibe loadTeams:", id) 
       const response = await axios.post(`${ENDPOINT_MS_TEAM}/findTeamsById`, {idCreator: id});
       //const response = await axios.post('http://10.181.135.64:4002/teams/findTeamsById', {idCreator: id});
       const teamsData = response.data;
