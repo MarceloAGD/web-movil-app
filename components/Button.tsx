@@ -22,7 +22,7 @@ const Button = ({ mode, style, children, ...props }: Props) => (
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
+    width: '60%',
     marginVertical: 10,
     borderRadius: 12,
   },

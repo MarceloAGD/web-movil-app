@@ -6,12 +6,12 @@ import Background from "../../components/Background";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import BackButton from "../../components/BackButton";
-import { TextInput, View } from "react-native";
+import { KeyboardAvoidingView, TextInput, View } from "react-native";
 import container from "../../constants/container";
 import { theme } from "../../constants/theme";
 import { useUserStore } from "../../components/UseUserStore";
 import { Text } from "../../components/Themed";
-
+import { styles } from '../../constants/style';
 
 export default function EditProfile() {
   const router = useRouter();
@@ -114,19 +114,9 @@ export default function EditProfile() {
   };
 
   return (
-    <Background imageSource={require("../../assets/background_5.png")}>
-      <View
-        style={{
-          marginBottom: 130,
-          marginTop: 130,
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 20,
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          borderRadius: 15,
-        }}
-      >
+    <KeyboardAvoidingView behavior='height' style={styles.container}>
+      <View style={{marginTop: 50}}>
+ 
         <Header>Edit Profile</Header>
         {changePassword ? (
           <>
@@ -190,6 +180,6 @@ export default function EditProfile() {
         </Button>
         <Text style={{color: theme.colors.primary}}>{error}</Text>
       </View>
-    </Background>
+      </KeyboardAvoidingView>
   );
 }

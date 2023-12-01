@@ -4,47 +4,46 @@ import Header from "../../components/Header";
 import { styles } from '../../constants/style';
 import Button from "../../components/Button";
 import { theme } from "../../constants/theme";
+import { useUserStore } from "../../components/UseUserStore";
 import axios from "axios";
-import {ENDPOINT_MS_TEAM} from '@env';
+import {ENDPOINT_MS_TEAM, ENDPOINT_MS_PROJECT} from '@env';
 import { useRouter, useLocalSearchParams } from "expo-router";
 
-const addMember: React.FC = () => {
+
+const addTeam: React.FC = () => {
 
     const router = useRouter();
 
-    const [newMemberEmail, setNewMemberEmail] = useState("");
+    const [newTeamName, setNewTeamName] = useState("");
 
-    const storedIdTeam = useLocalSearchParams<{id: string; storedIdTeam?: string }>();
+    const storedIdProject = useLocalSearchParams<{id: string; storedIdProject?: string }>();
+    
+    
 
     useEffect(() => {
-        loadTeamData();
-    }, [])
-    const loadTeamData = async () => {
-        try{
-            const response = await axios.get(`${ENDPOINT_MS_TEAM}/${storedIdTeam.id}`);
-        console.log("response.data", response.data);
-        }catch(error){
-            console.error('error:', error); }
-    }
-    const addNewMember = async () => {
+
+    })
+
+    const addNewTeam = async () => {
         
         try{
+            console.log("storedIdTeam en addTeam/en el try", storedIdProject);
             //TODO: veridicar que el correo exista en la base de datos de usuarios
-            const queryResponse = await axios.post(`${ENDPOINT_MS_TEAM}/addMember`, {
-            emailNewMember: newMemberEmail,
-            idTeam: storedIdTeam.id,
+            const queryResponse = await axios.post(`${ENDPOINT_MS_PROJECT}/addTeam`, {
+            nameNewTeam: newTeamName,
+            idProject: storedIdProject.id,
 
             });
             
             if(queryResponse.data.success){
-                console.log("se ha añadido el nuevo miembro al team!");
-                Alert.alert("miembro añadido con exito");
+                console.log("se ha añadido el nuevo team al proyecto");
+                Alert.alert("team añadido con exito");
                 setTimeout(() => {
                     router.back();
                   }, 2500);
 
             }else{
-                console.log("error añadiendo al nuevo miembro");
+                console.log("error añadiendo al nuevo team");
                 setTimeout(() => {
                     router.back();
                   }, 2500);
@@ -54,30 +53,31 @@ const addMember: React.FC = () => {
             console.error('error:', error);
         }
         
+        
 
     }
 
     return(
         <KeyboardAvoidingView behavior='height' style={styles.container}>
             <View style={{marginTop: 50}}>
-            <Header> Add Member</Header>
+            <Header> Add Team</Header>
             <TextInput
             style={styles.input}
-            placeholder="new member email"
-            value={newMemberEmail}
-            onChangeText={(text) => setNewMemberEmail(text)}
+            placeholder="new Team Name"
+            value={newTeamName}
+            onChangeText={(text) => setNewTeamName(text)}
             />
             </View>
             <Button
             mode="contained"
             style={{ marginBottom: 20, backgroundColor: theme.colors.primary }}
             onPress={() => {
-                addNewMember();
+                addNewTeam();
               
             }}
-            disabled={newMemberEmail.trim() === ''}
+            disabled={newTeamName.trim() === ''}
             >
-                Add new member
+                Add new Team
             </Button>
             
         </KeyboardAvoidingView> 
@@ -87,4 +87,4 @@ const addMember: React.FC = () => {
 
 
 }
-export default addMember;
+export default addTeam;

@@ -40,7 +40,7 @@ export default function Login() {
       if (accessToken != undefined) {
         setAccessToken(accessToken);
         setEmail(emailUser);
-        router.replace('/(home)');
+        router.replace('/(home)/projects');
       }
     } catch (error) {
         setError("Login error")
@@ -50,8 +50,8 @@ export default function Login() {
   };
   
   return (
-    <Background imageSource={require('../../assets/background_2.png')}>
-      <KeyboardAvoidingView behavior='height' style={container.container}>
+
+      <KeyboardAvoidingView  behavior='height' style={container.container} keyboardVerticalOffset={0}>
       <Header>Login</Header>
       <Text style={container.title}>Email</Text>
       <TextInput
@@ -72,6 +72,5 @@ export default function Login() {
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => login(emailUser.value, password.value)}> Login</Button>
       <Text style={{color: theme.colors.primary}}>{error}</Text>
       </KeyboardAvoidingView>
-    </Background>
   );
 }

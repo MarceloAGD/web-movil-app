@@ -8,14 +8,14 @@ export const styles = StyleSheet.create({
     overflow: 'scroll',
     padding: 20,
     backgroundColor: 'white',
-    alignSelf: 'center',
+    alignSelf: 'auto',
     justifyContent: 'flex-start',
-    marginHorizontal: -25,
+    margin: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 5,
   },
   input: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',

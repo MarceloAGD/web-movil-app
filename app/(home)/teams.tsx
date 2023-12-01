@@ -1,250 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Alert} from "react-native";
+import { View } from "react-native";
 import Button from "../../components/Button";
-import Header from "../../components/Header";
 import { theme } from "../../constants/theme";
-import { IconButton } from "react-native-paper";
-import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER, ENDPOINT_MS_TEAM} from "@env";
-import axios from "axios";
-import { useUserStore } from "../../components/UseUserStore";
-import { useRouter, Link } from "expo-router";
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { styles } from '../../constants/style';
-
+import { useRouter } from "expo-router";
 
 const Teams: React.FC = () => {
-  const router = useRouter();
-  const [teamName, setTeamName] = useState("");
-  const [description, setDescription] = useState('')
-  const [teams, setTeams] = useState([]);
-  const { accessToken, removeAccessToken } = useUserStore();
-  const [id, setId] = useState();
-  const { email } = useUserStore();
-  const [name, setName] = useState('');
-  const [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
-    loadUserData();
-    console.log("print de id en useEffect", id);
-    if (id !== undefined) {
-      loadTeams(id);
-    }
-  }, [email, id]);
+    const router = useRouter();
+    return(
+        <View style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
+            <Button mode="contained"
+            style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
+            onPress={() => router.push('/team/teamsOwner')}>
+                My Teams 
+            </Button>
+            <Button mode="contained"
+            style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
+            onPress={() => router.push('/team/teamsMember')}>
+                Teams
+            </Button>
 
-  const loadUserData = async () => {
-    console.log("printiando email antes de llamada a axios");
-    console.log(email);
-    console.log("---");
-    /*
-    await axios
-      .get(`${ENDPOINT_MS_AUTH}/get-user`, {
-        params: {
-          email: email,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })*/
-    await axios
-      .post(`${ENDPOINT_MS_AUTH}/get-user`, {email})
-      .then((user) => {
-        console.log("-----");
-        console.log(user.data.id)
-        setId(user.data.id);
-        console.log("id guardado con setId",id);
-        console.log("deberia ser marcelo")
-        console.log(user.data.name);
-        console.log();
-        setName(user.data.name);
-        console.log(user.data.name);
-      })
-      .catch((error) => {
-        console.error("Error getting user information:", error);
-      });
-
-      
-  };
-
-  const loadTeams = async (id: number) => {
-    try {
-      console.log("print de id en loadTeams");
-      console.log("id que recibe loadTeams:", id) 
-      const response = await axios.post(`${ENDPOINT_MS_TEAM}/findTeamsById`, {idCreator: id});
-      //const response = await axios.post('http://10.181.135.64:4002/teams/findTeamsById', {idCreator: id});
-      const teamsData = response.data;
-      if (teamsData.length > 0) {
-        setTeams(teamsData);
-      }
-      setLoading(false); // Marca la carga como completada
-    } catch (error) {
-      console.error("Error loading teams:", error);
-      setLoading(false); // Marca la carga como completada en caso de error
-    }
-  };
-
-
-  const addTeam = async () => {
-    const response = await axios.post(`${ENDPOINT_MS_TEAM}/createTeam`, {name: teamName, description: description, idCreator: id})
-    //const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
-    if (response.data.success) {
-      console.log("Equipo creado exitosamente");
-      Alert.alert("Equipo creado exitosamente");
-      // Resto del código para cargar los equipos, etc.
-    } else {
-      // El equipo ya existe, muestra una alerta.
-      Alert.alert("Equipo Existente", "El equipo que intentas agregar ya existe.");
-    }
-    setTeamName("");
-    setDescription("");
-    if (id !== undefined) {
-      loadTeams(id);
-    }
-  };
-
-
-  const deleteTeam = (index: number, idTeam: number) => {
-    Alert.alert(
-      "Confirmar Eliminación",
-      "¿Estás seguro de que deseas eliminar este equipo?",
-      [
-        {
-          text: "Cancelar",
-          onPress: () => {
-            // El usuario canceló la eliminación, no hagas nada.
-          },
-          style: "cancel",
-        },
-        {
-          text: "Eliminar",
-          onPress: async () => {
-            // El usuario confirmó la eliminación, procede a eliminar el equipo.
-            
-            await axios.post(`${ENDPOINT_MS_TEAM}/remove-team/${idTeam}`)
-            
-            // Actualiza la lista de equipos después de eliminar el equipo.
-            const updatedTeams = [...teams];
-            updatedTeams.splice(index, 1);
-            setTeams(updatedTeams);
-          },
-        },
-      ]
-    );
-  };
-  
-
-  interface Team {
-    id: number;
-    name: string;
-  }
-
-  const handleAddMember = (idTeam: number) => {
-    useUserStore.setState({ idTeam });
-    router.push('/team/addMember');
-
-  }
-  
-  return (
-      <KeyboardAvoidingView behavior='height' style={styles.container}>
-        
-      <View style={{marginTop: 50}}>
-        <Header> Team Management</Header>
-        <TextInput
-          style={styles.input}
-          placeholder="Name team"
-          value={teamName}
-          onChangeText={(text) => setTeamName(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Description team"
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-        />
-        <Button
-          mode="contained"
-          style={{ marginBottom: 20, backgroundColor: theme.colors.primary }}
-          onPress={() => {
-            if (teamName.trim() === '') {
-              // El campo de "Name team" está en blanco, muestra una alerta o realiza la acción que desees.
-              // Por ejemplo, aquí se muestra una alerta simple:
-              Alert.alert('Alerta', 'Por favor, ingresa un nombre de equipo.');
-              
-            } else {
-              // El campo de "Name team" no está en blanco, puedes crear el equipo.
-              addTeam();
-            }
-          }}
-        >
-          Add team
-        </Button>
         </View>
-        <Header> Teams of {name}</Header>
-        {loading ? (
-          <Text>Loading...</Text>
-        ) : teams.length > 0 ? (
-        teams.map((team: Team, index) => (
-          <View key={index} style={styles.teamItem}>
-            <TextInput
-              style={styles.input}
-              value={team.name}
-            />
-             
-            <Link
-              href={{
-                pathname: '/team/addMember',
-                params: {id: team.id},
-              }}
-              style={{
-                padding: 10,
-                paddingRight: 10,
-                marginLeft: 10,
-                marginTop: -10,
-                width: 39,
-                height: 39,
-                backgroundColor: theme.colors.primary, // Estilo de botón
-                borderRadius: 20, // Ajusta según tus preferencias
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Icon
-                name="user-plus"
-                size={15}
-                color={"#fff"}
-              />
-            </Link>
-
-            <TouchableOpacity
-              onPress={() => deleteTeam(index, team.id)}
-              style={{
-                padding: 10,
-                paddingRight: 10,
-                marginLeft: 10,
-                marginTop: -10,
-                width: 39,
-                height: 39,
-                backgroundColor: theme.colors.primary, // Estilo de botón
-                borderRadius: 20, // Ajusta según tus preferencias
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <IconButton
-                icon="delete"
-                size={25}
-                iconColor={"#fff"}
-              />
-            </TouchableOpacity>  
-
-            </View>
-            ))
-          ) : (
-            <Text>No teams created</Text>
-          )}
-      </KeyboardAvoidingView>
-  );
-};
-
-
+    )
+}
 
 export default Teams;

@@ -29,7 +29,6 @@ export default function ResetPassword() {
   };
 
   return (
-    <Background imageSource={require('../../assets/background_2.png')}>
     <KeyboardAvoidingView behavior='height' style={styles.container}>
       <Header>Reset Password</Header>
       <MonoText style={{color: theme.colors.primary, padding: 10}}>Enter your email to send your recovery code</MonoText>
@@ -50,7 +49,6 @@ export default function ResetPassword() {
 
       <Text style={styles.notification}>{notification}</Text>
     </KeyboardAvoidingView>
-    </Background>
   );
 }
 
