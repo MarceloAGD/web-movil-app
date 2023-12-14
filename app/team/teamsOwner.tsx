@@ -43,6 +43,7 @@ const TeamsOwner: React.FC = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })*/
+    console.log("ENDPOINT_MS_AUTH}/get-user en teamsOwner.tsx",ENDPOINT_MS_AUTH);
     await axios
       .post(`${ENDPOINT_MS_AUTH}/get-user`, {email})
       .then((user) => {
@@ -60,6 +61,7 @@ const TeamsOwner: React.FC = () => {
 
   const loadTeams = async (id: number) => {
     try {
+      console.log("ENDPOINT_MS_TEAM}/findTeamsById en teamsOwner.tsx",ENDPOINT_MS_TEAM);
       const response = await axios.post(`${ENDPOINT_MS_TEAM}/findTeamsById`, {idCreator: id});
       //const response = await axios.post('http://10.181.135.64:4002/teams/findTeamsById', {idCreator: id});
       const teamsData = response.data;
@@ -75,6 +77,7 @@ const TeamsOwner: React.FC = () => {
 
 
   const addTeam = async () => {
+    console.log("ENDPOINT_MS_TEAM}/createTeam en teamsOwner.tsx",ENDPOINT_MS_TEAM);
     const response = await axios.post(`${ENDPOINT_MS_TEAM}/createTeam`, {name: teamName, description: description, idCreator: id})
     //const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
     if (response.data.success) {
@@ -109,7 +112,7 @@ const TeamsOwner: React.FC = () => {
           text: "Eliminar",
           onPress: async () => {
             // El usuario confirmó la eliminación, procede a eliminar el equipo.
-            
+            console.log("ENDPOINT_MS_TEAM}/remove-team en teamsOwner.tsx",ENDPOINT_MS_TEAM);
             await axios.post(`${ENDPOINT_MS_TEAM}/remove-team/${idTeam}`)
             
             // Actualiza la lista de equipos después de eliminar el equipo.

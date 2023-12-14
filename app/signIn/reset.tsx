@@ -37,6 +37,7 @@ export default function ResetPassword() {
 
   const sendMail = async () => {
     try {
+      console.log("ENDPOINT_MS_AUTH}/recover en recovery.tsx", ENDPOINT_MS_AUTH);
       await axios.post(`${ENDPOINT_MS_AUTH}/recover`, { email });
       setEmailSent(true);
       setNotification("Correo enviado");
@@ -49,6 +50,7 @@ export default function ResetPassword() {
 
   const reset = async () => {
     try {
+      console.log("ENDPOINT_MS_AUTH}/reset en reset.tsx", ENDPOINT_MS_AUTH);
       const response = await axios.post(`${ENDPOINT_MS_AUTH}/reset`, {
         token: code,
         password,

@@ -30,6 +30,7 @@ export default function SignUp() {
           email,
           password,
         }*/
+        console.log("ENDPOINT_MS_USER}/sign-up en register.tsx",ENDPOINT_MS_USER)
         const response = await axios.post(
           `${ENDPOINT_MS_USER}/sign-up`,
           {

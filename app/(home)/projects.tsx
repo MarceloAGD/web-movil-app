@@ -41,6 +41,7 @@ export default function TabOneScreen() {
           Authorization: `Bearer ${accessToken}`,
         },
       })*/
+    console.log("ENDPOINT_MS_AUTH}/get-user en projects.tsx",ENDPOINT_MS_AUTH)  
     await axios
       .post(`${ENDPOINT_MS_AUTH}/get-user`, {email})
       .then((user) => {

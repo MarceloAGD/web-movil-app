@@ -37,6 +37,7 @@ const EditProject: React.FC = () => {
 
     const loadProjectData = async () => {
         try{
+            console.log("ENDPOINT_MS_PROJECT}/storedId.id en editProject.tsx",ENDPOINT_MS_PROJECT)
             const response = await axios.get(`${ENDPOINT_MS_PROJECT}/${storedId.id}`);
             setProject(response.data.project);
             setProjectName(response.data.project.name);
@@ -49,6 +50,7 @@ const EditProject: React.FC = () => {
 
     const deleteteam = async (idteam: string) => {
         try{
+            console.log("ENDPOINT_MS_PROJECT}/deleteTeam en editProject.tsx",ENDPOINT_MS_PROJECT);
             const queryResponse = await axios.post(`${ENDPOINT_MS_PROJECT}/deleteTeam`, {
             idTeam: idteam,
             idProject: storedId.id,
@@ -74,6 +76,7 @@ const EditProject: React.FC = () => {
     
         try {
           setIsSaving(true); // Inicia la solicitud
+          console.log("ENDPOINT_MS_PROJECT}/update-project en editProject.tsx",ENDPOINT_MS_PROJECT);
           const queryResponse = await axios.patch(`${ENDPOINT_MS_PROJECT}/update-project`, {
             id: storedId.id,
             name: projectName,

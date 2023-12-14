@@ -14,26 +14,28 @@ import container from "../../constants/container";
 
 export default function Login() {
   const router = useRouter()
-  const [emailUser, setEmailUser] = useState({ value: 'mguerradubo@gmail.com', error: '' });
-  const [password, setPassword] = useState({ value: 'marcelo', error: '' });
+  const [emailUser, setEmailUser] = useState({ value: 'alexis@gmail.com', error: '' });
+  const [password, setPassword] = useState({ value: '123', error: '' });
   const { accessToken, setAccessToken} = useUserStore();
   const {email, setEmail } = useUserStore()
   const [error, setError] = useState('');
   const login = async (emailUser: string, password: string) => {
     try {
       /*
-      const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
+      const response = await axios.post(`http://192.168.0.4:4001/auth/login`, {
         email: emailUser,
         password: password,
       });
       */
       //console.log(accessToken);
-    
+      console.log("ENDPOINT_MS_AUTH}/login en login.tsx",ENDPOINT_MS_AUTH);
       const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
         email: emailUser,
         password: password,
       });
-  
+      
+      
+
       const accessToken = response.data.access_token;
       console.log("access token:",accessToken);
 

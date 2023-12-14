@@ -40,6 +40,7 @@ export default function User() {
           Authorization: `Bearer ${accessToken}`,
         },
       })*/
+      console.log("ENDPOINT_MS_AUTH/get-user en user.tsx",ENDPOINT_MS_AUTH)  
       await axios
       .post(`${ENDPOINT_MS_AUTH}/get-user`, { email })
       .then((user) => {
