@@ -10,7 +10,7 @@ import { theme } from "../../constants/theme";
 import { useUserStore } from "../../components/UseUserStore";
 import { Text } from "../../components/Themed";
 import { styles } from '../../constants/style';
-import { Picker } from "@react-native-picker/picker";
+import { SelectList } from 'react-native-dropdown-select-list'
 
 const EditProfile: React.FC = () => {
   const router = useRouter();
@@ -101,7 +101,7 @@ const EditProfile: React.FC = () => {
 
   return (
     <KeyboardAvoidingView behavior='height' style={styles.container}>
-      <View style={{marginTop: 50}}>
+      <View style={{marginTop: 50, alignSelf: 'center'}}>
  
         <Header>Edit Profile</Header>
         {changePassword ? (
@@ -132,6 +132,7 @@ const EditProfile: React.FC = () => {
             </Button>
             
           </View>
+          
         ) : (
           <View>
             <Text style={container.title}>Name</Text>
@@ -149,14 +150,14 @@ const EditProfile: React.FC = () => {
               onChangeText={(text) => setLastname(text)}
             />
             <Text style={container.title}>Select role</Text>
-            <Picker style={container.input}>
-              <Picker.Item label="User" value="user" />
-              <Picker.Item label="Admin" value="admin" />
-              <Picker.Item label="Developer" value="developer" />
-              <Picker.Item label="Manager" value="manager" />
-            </Picker>
+            <SelectList
+            setSelected={(value: string) => setRol(value)}
+            save="value"
+            defaultOption={{ key:'1', value:'user' }}
+            data={[{key: '1', value: 'user' },{key: '2', value: 'admin' },{key: '3', value: 'developer' },{key: '1', value: 'manager' }]}
+            />
             <Button
-              style={{ backgroundColor: theme.colors.primary }}
+              style={{ marginTop: 20, backgroundColor: theme.colors.primary, width: 200}}
               mode="contained"
               onPress={handleUpdateProfile}
             >
@@ -165,6 +166,7 @@ const EditProfile: React.FC = () => {
           </View>
         )}
         <Button
+        style={{ marginTop: 20, width: 200}}
           textColor={theme.colors.primary}
           mode="outlined"
           onPress={setChangePasswordAndsetError}
@@ -172,7 +174,7 @@ const EditProfile: React.FC = () => {
           {changePassword ? "Cancel" : "Change Password"}
         </Button>
         <Text style={{color: theme.colors.primary}}>{error}</Text>
-      </View>
+        </View>
       </KeyboardAvoidingView>
   );
 }

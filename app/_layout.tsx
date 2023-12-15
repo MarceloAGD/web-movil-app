@@ -55,10 +55,7 @@ function RootLayoutNav() {
         <Stack.Screen name="signIn/reset"  options={{headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="(home)" options={{ headerShown: false }} />
         <Stack.Screen name="project" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true}} />
-        <Stack.Screen name="project/addTeam" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
-        <Stack.Screen name="project/editProject" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
-        <Stack.Screen name="project/backlog" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
-        <Stack.Screen name="team/teamsOwner" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
+       <Stack.Screen name="team/teamsOwner" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="team/teamsMember" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="team/editTeam" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="team/addMember" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
