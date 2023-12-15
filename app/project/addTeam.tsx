@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Alert} from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Alert } from "react-native";
+import {Picker} from '@react-native-picker/picker';
 import Header from "../../components/Header";
 import { styles } from '../../constants/style';
 import Button from "../../components/Button";
@@ -9,22 +10,32 @@ import axios from "axios";
 import {ENDPOINT_MS_TEAM, ENDPOINT_MS_PROJECT} from '@env';
 import { useRouter, useLocalSearchParams } from "expo-router";
 
+interface team {
+    id: number;
+    name: string;
+    description: string;
+    idCreator: number;
+}
 
 const addTeam: React.FC = () => {
 
     const router = useRouter();
 
-    const [newTeamName, setNewTeamName] = useState("");
+    const [newTeamName, setNewTeamName] = useState('');
 
     const storedIdProject = useLocalSearchParams<{id: string; storedIdProject?: string }>();
     
-    
+    const [teams, setTeams] = useState<team[]>([]);
 
     useEffect(() => {
-
+        const loadteams = async () => {
+            const teams = await axios.get(`${ENDPOINT_MS_TEAM}/teams`);
+            setTeams(teams.data);
+        }
+        loadteams();
     })
 
-    const addNewTeam = async () => {
+    const addNewTeam = async (newTeamName: string) => {
         
         try{
             console.log("storedIdTeam en addTeam/en el try", storedIdProject);
@@ -53,29 +64,31 @@ const addTeam: React.FC = () => {
             console.error('error:', error);
         }
         
-        
-
     }
 
+    
     return(
         <KeyboardAvoidingView behavior='height' style={styles.container}>
             <View style={{marginTop: 50}}>
             <Header> Add Team</Header>
-            <TextInput
+            <Picker
             style={styles.input}
-            placeholder="new Team Name"
-            value={newTeamName}
-            onChangeText={(text) => setNewTeamName(text)}
-            />
+                    selectedValue={newTeamName}
+                    onValueChange={(itemValue) => setNewTeamName(itemValue)}>
+                        <Picker.Item label="Select a team" value="" />
+                    {teams.map((team) => (
+                        <Picker.Item key={team.id} label={team.name} value={team.name} />
+                    ))}
+                </Picker>
             </View>
             <Button
             mode="contained"
-            style={{ marginBottom: 20, backgroundColor: theme.colors.primary }}
+            style={{ marginTop: 20, backgroundColor: theme.colors.primary }}
             onPress={() => {
-                addNewTeam();
+                addNewTeam(newTeamName);
               
             }}
-            disabled={newTeamName.trim() === ''}
+           
             >
                 Add new Team
             </Button>

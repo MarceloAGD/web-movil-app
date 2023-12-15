@@ -20,16 +20,7 @@ export default function SignUp() {
   const [error, setError] = useState('')
 
   const signUp = async (name: string, lastname: string, email: string, password: string) => {
-    try {
-      /*
-      const response = await axios.post(
-        `${ENDPOINT_MS_USER}/sign-up`,
-        {
-          name,
-          lastname,
-          email,
-          password,
-        }*/
+    
         const response = await axios.post(
           `${ENDPOINT_MS_USER}/sign-up`,
           {
@@ -40,20 +31,16 @@ export default function SignUp() {
           }
       );
       if(response.data.err){
-        setError('User already exists');     
+        setError(response.data.msg);     
       } else {
         router.replace('/');
       }
-    } catch (error) {
-      setError('Error registering user');
-      console.error("Error registering user:", error);
-    }
     
   };
   return (
   
       <KeyboardAvoidingView behavior='height' style={container.container} >
-      
+      <View>
     <Header>Register</Header>
     <Text style={container.title}>Name</Text>
       <TextInput 
@@ -84,6 +71,7 @@ export default function SignUp() {
         onChangeText={text => setPassword({ value: text, error: '' })}
         secureTextEntry
       />
+      </View>
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => signUp(name.value, lastname.value, email.value, password.value)}> Register</Button>
       <Text style={{color: theme.colors.primary}}>{error}</Text>
      

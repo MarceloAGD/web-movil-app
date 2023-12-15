@@ -31,16 +31,7 @@ export default function TabOneScreen() {
 
 
   const loadUserData = async () => {
-    /*
-    await axios
-      .get(`${ENDPOINT_MS_AUTH}/get-user`, {
-        params: {
-          email: email,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })*/
+ 
     await axios
       .post(`${ENDPOINT_MS_AUTH}/get-user`, {email})
       .then((user) => {
@@ -139,7 +130,7 @@ export default function TabOneScreen() {
 
   return (
     <KeyboardAvoidingView behavior='height' style={styles.container}>
-    <View style={{marginTop: 50}}>
+    <View style={{marginTop: 0,}}>
         <Header> Project Management</Header>
         <TextInput
           style={styles.input}

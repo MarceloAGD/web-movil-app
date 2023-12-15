@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 const Teams: React.FC = () => {
     const router = useRouter();
     return(
-        <View style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
+        <View style={{justifyContent: 'center', flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
             <Button mode="contained"
             style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
             onPress={() => router.push('/team/teamsOwner')}>

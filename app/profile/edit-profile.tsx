@@ -1,51 +1,42 @@
-import React, { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useRouter } from "expo-router";
-import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER} from '@env';
-import Background from "../../components/Background";
+import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER } from '@env';
 import Header from "../../components/Header";
 import Button from "../../components/Button";
-import BackButton from "../../components/BackButton";
 import { KeyboardAvoidingView, TextInput, View } from "react-native";
 import container from "../../constants/container";
 import { theme } from "../../constants/theme";
 import { useUserStore } from "../../components/UseUserStore";
 import { Text } from "../../components/Themed";
 import { styles } from '../../constants/style';
+import { Picker } from "@react-native-picker/picker";
 
-export default function EditProfile() {
+const EditProfile: React.FC = () => {
   const router = useRouter();
   const { accessToken, setAccessToken, email } = useUserStore();
   const [name, setName] = useState('');
-  //const [userName, setUserName] = useUserStore();
   const [lastname, setLastname] = useState('');
   const [error, setError] = useState('');
-  const [changePassword, setChangePassword] = useState(false); // Estado para mostrar u ocultar los campos de cambio de contraseña
-  const [oldPassword, setOldPassword] = useState(""); // Contraseña antigua
-  const [newPassword, setNewPassword] = useState(""); // Contraseña nueva
-
+  const [changePassword, setChangePassword] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [rol, setRol] = useState("");
   useEffect(() => {
-    
-    axios
-      .post(`${ENDPOINT_MS_AUTH}/get-user`, { email })/*
-      axios.get('http://10.181.135.64:4001/user/get-user', {
-        params: {
-          email: email,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })*/
-      .then((user) => {
-        setName(user.data.name);
-        
+    const getUserInformation = async () => {
+      try {
+        const user = await axios.post(`${ENDPOINT_MS_AUTH}/get-user`, { email });
+        setName(user.data?.name);
+        setLastname(user.data?.lastname);
+        setRol(user.data?.rol);
+      } catch (error) {
+        console.error("Error obteniendo la información del usuario:", error);
+      }
+    };
 
-        setLastname(user.data.lastname);   
-      })
-      .catch((error) => {
-        console.error("Error getting user information:", error);
-      });
-  }, [email]);
+    getUserInformation();
+
+  }, []);
   
   const handleUpdateProfile = async () => {
     try {
@@ -56,14 +47,8 @@ export default function EditProfile() {
           name: name,
           lastname: lastname,
           email: email,
-        }/*
-        await axios.post(
-          'http://10.181.135.64:4001/user/update-user',
-          {
-            name: name,
-            lastname: lastname,
-            email: email,
-          }*/
+          role: rol,
+        }
       );
       useUserStore.setState({
         email: email,
@@ -119,7 +104,7 @@ export default function EditProfile() {
  
         <Header>Edit Profile</Header>
         {changePassword ? (
-          <>
+          <View>
             
             <Text style={container.title}>Old Password</Text>
             <TextInput
@@ -145,9 +130,9 @@ export default function EditProfile() {
               Save Password
             </Button>
             
-          </>
+          </View>
         ) : (
-          <>
+          <View>
             <Text style={container.title}>Name</Text>
             <TextInput
               style={container.input}
@@ -162,6 +147,13 @@ export default function EditProfile() {
               value={lastname}
               onChangeText={(text) => setLastname(text)}
             />
+            <Text style={container.title}>Select role</Text>
+            <Picker style={container.input}>
+              <Picker.Item label="User" value="user" />
+              <Picker.Item label="Admin" value="admin" />
+              <Picker.Item label="Developer" value="developer" />
+              <Picker.Item label="Manager" value="manager" />
+            </Picker>
             <Button
               style={{ backgroundColor: theme.colors.primary }}
               mode="contained"
@@ -169,7 +161,7 @@ export default function EditProfile() {
             >
               Save
             </Button>
-          </>
+          </View>
         )}
         <Button
           textColor={theme.colors.primary}
@@ -183,3 +175,5 @@ export default function EditProfile() {
       </KeyboardAvoidingView>
   );
 }
+
+export default EditProfile;

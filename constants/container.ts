@@ -14,8 +14,6 @@ const container= StyleSheet.create({
       alignItems: 'center',
       padding: 20,
       backgroundColor:"rgba(255,255, 255, 0.8)",
-      marginBottom: 150,
-      paddingTop: 20,
       borderRadius: 15,
     },
     title: {

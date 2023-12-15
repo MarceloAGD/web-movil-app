@@ -16,9 +16,11 @@ interface Project {
   }
   
   interface TeamData {
-    id: string;
-    name: string;
-    description: string;
+    team:{
+      id: string;
+      name: string;
+      description: string;
+    };
   }
 
 const EditProject: React.FC = () => {

@@ -19,16 +19,9 @@ export default function Login() {
   const { accessToken, setAccessToken} = useUserStore();
   const {email, setEmail } = useUserStore()
   const [error, setError] = useState('');
+  
   const login = async (emailUser: string, password: string) => {
     try {
-      /*
-      const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
-        email: emailUser,
-        password: password,
-      });
-      */
-      //console.log(accessToken);
-    
       const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
         email: emailUser,
         password: password,
@@ -52,6 +45,7 @@ export default function Login() {
   return (
 
       <KeyboardAvoidingView  behavior='height' style={container.container} keyboardVerticalOffset={0}>
+      <View>
       <Header>Login</Header>
       <Text style={container.title}>Email</Text>
       <TextInput
@@ -68,6 +62,7 @@ export default function Login() {
         onChangeText={text => setPassword({ value: text, error: '' })}
         secureTextEntry
       />
+      </View>
       <Link style={{fontSize: 18, margin: 15, fontWeight: 'bold', color: theme.colors.primary}} href={'/signIn/recovery'}>Reset Password</Link>
       <Button style={{backgroundColor: theme.colors.primary }} mode="contained" onPress={() => login(emailUser.value, password.value)}> Login</Button>
       <Text style={{color: theme.colors.primary}}>{error}</Text>

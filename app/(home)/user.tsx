@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import Background from "../../components/Background";
 import Header from "../../components/Header";
@@ -5,7 +6,6 @@ import Button from "../../components/Button";
 import { IconButton } from 'react-native-paper';
 import { useUserStore } from "../../components/UseUserStore";
 import { theme } from "../../constants/theme";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ENDPOINT_MS_AUTH } from "@env";
 import {
@@ -26,37 +26,20 @@ export default function User() {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
+    
+    const loadUserData = async () => {
+     try{ 
+      const user = await axios.post(`${ENDPOINT_MS_AUTH}/get-user`, { email })
+      setName(user.data?.name);
+      setLastname(user.data?.lastname);
+      
+    }catch(error){
+        console.error("Error getting user information:", error);
+      };
+  };
+    
     loadUserData();
   }, [email]);
-
-  const loadUserData = async () => {
-    /*
-    await axios
-      .get(`${ENDPOINT_MS_AUTH}/get-user`, {
-        params: {
-          email: email,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })*/
-      await axios
-      .post(`${ENDPOINT_MS_AUTH}/get-user`, { email })
-      .then((user) => {
-        setName(user.data.name);
-        setLastname(user.data.lastname);
-        const storedUserName = useUserStore().userName;
-        if (storedUserName !== undefined) {
-          setName(storedUserName);
-        } else {
-          setName('')
-        }
-      })
-      .catch((error) => {
-        console.error("Error getting user information:", error);
-      });
-  };
-
   
   const handleLogout = async () => {
     try {
