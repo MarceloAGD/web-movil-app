@@ -40,6 +40,7 @@ const addTeam: React.FC = () => {
         try{
             console.log("storedIdTeam en addTeam/en el try", storedIdProject);
             //TODO: veridicar que el correo exista en la base de datos de usuarios
+            console.log("ENDPOINT_MS_PROJECT}/addTeam en addTeam.tsx",ENDPOINT_MS_PROJECT);
             const queryResponse = await axios.post(`${ENDPOINT_MS_PROJECT}/addTeam`, {
             nameNewTeam: newTeamName,
             idProject: storedIdProject.id,

@@ -21,6 +21,7 @@ const addMember: React.FC = () => {
     }, [])
     const loadTeamData = async () => {
         try{
+            console.log("ENDPOINT_MS_TEAM}/storedIdTeam.id en addMember.tsx",ENDPOINT_MS_TEAM);
             const response = await axios.get(`${ENDPOINT_MS_TEAM}/${storedIdTeam.id}`);
         console.log("response.data", response.data);
         }catch(error){
@@ -30,6 +31,7 @@ const addMember: React.FC = () => {
         
         try{
             //TODO: veridicar que el correo exista en la base de datos de usuarios
+            console.log("ENDPOINT_MS_TEAM}/addMember en addMember.tsx",ENDPOINT_MS_TEAM);
             const queryResponse = await axios.post(`${ENDPOINT_MS_TEAM}/addMember`, {
             emailNewMember: newMemberEmail,
             idTeam: storedIdTeam.id,

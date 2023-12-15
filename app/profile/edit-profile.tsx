@@ -40,7 +40,7 @@ const EditProfile: React.FC = () => {
   
   const handleUpdateProfile = async () => {
     try {
-      
+      console.log("ENDPOINT_MS_USER}/update-user en edit-profile.tsx",ENDPOINT_MS_USER)  
       await axios.post(
         `${ENDPOINT_MS_USER}/update-user`,
         {
@@ -69,6 +69,7 @@ const EditProfile: React.FC = () => {
 
   const handleChangePassword = async () => {
     try {
+      console.log("ENDPOINT_MS_USER}/update-password en edit-profile.tsx",ENDPOINT_MS_USER)
       const isUpdated = await axios.post(
         `${ENDPOINT_MS_USER}/update-password`,
         {

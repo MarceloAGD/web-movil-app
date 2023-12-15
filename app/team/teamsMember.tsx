@@ -42,6 +42,7 @@ const TeamsMember: React.FC = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })*/
+    console.log("ENDPOINT_MS_AUTH}/get-user en teamsMember.tsx",ENDPOINT_MS_AUTH);  
     await axios
       .post(`${ENDPOINT_MS_AUTH}/get-user`, {email})
       .then((user) => {
@@ -64,6 +65,7 @@ const TeamsMember: React.FC = () => {
 
   const loadTeams = async (id: number) => {
     try {
+      console.log("ENDPOINT_MS_TEAM}/findTeamsByMemberId en teamsMember.tsx",ENDPOINT_MS_TEAM);
       const response = await axios.post(`${ENDPOINT_MS_TEAM}/findTeamsByMemberId`, {idCreator: id});
       //const response = await axios.post('http://10.181.135.64:4002/teams/findTeamsById', {idCreator: id});
       const teamsData = response.data;

@@ -37,6 +37,7 @@ const EditTeam: React.FC = () => {
 
     const loadTeamData = async () => {
         try{
+            console.log("ENDPOINT_MS_TEAM}/storedIdTeam.id en editTeam.tsx",ENDPOINT_MS_TEAM);
             const response = await axios.get(`${ENDPOINT_MS_TEAM}/${storedIdTeam.id}`);
             setTeam(response.data.team);
             setTeamName(response.data.team.name);
@@ -49,6 +50,7 @@ const EditTeam: React.FC = () => {
 
     const deleteMember = async (idMember: string) => {
         try{
+            console.log("ENDPOINT_MS_TEAM}/deleteMember en editTeam.tsx",ENDPOINT_MS_TEAM);
             const queryResponse = await axios.post(`${ENDPOINT_MS_TEAM}/deleteMember`, {
             idMember: idMember,
             idTeam: storedIdTeam.id,
@@ -74,6 +76,7 @@ const EditTeam: React.FC = () => {
     
         try {
           setIsSaving(true); // Inicia la solicitud
+          console.log("ENDPOINT_MS_TEAM}/update-team en editTeam.tsx",ENDPOINT_MS_TEAM);
           const queryResponse = await axios.patch(`${ENDPOINT_MS_TEAM}/update-team`, {
             id: storedIdTeam.id,
             name: teamName,

@@ -22,6 +22,8 @@ interface Project {
       description: string;
     };
   }
+ 
+
 
 const EditProject: React.FC = () => {
     const router = useRouter();
@@ -30,6 +32,7 @@ const EditProject: React.FC = () => {
     const storedId = useLocalSearchParams<{id: string; storedId?: string }>();
     const [project, setProject] = useState<Project| null>(null);
     const [teams, setTeams] = useState<TeamData[]>([]);
+    //const [tasks, setTasks] = useState<TaskData[]>([]);
     const [loading, setLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
@@ -39,11 +42,24 @@ const EditProject: React.FC = () => {
 
     const loadProjectData = async () => {
         try{
+            console.log("storedId.id en editProject.tsx",storedId.id);
+            console.log("ENDPOINT_MS_PROJECT}/storedId.id en editProject.tsx",ENDPOINT_MS_PROJECT)
             const response = await axios.get(`${ENDPOINT_MS_PROJECT}/${storedId.id}`);
-            setProject(response.data.project);
-            setProjectName(response.data.project.name);
-            setDescription(response.data.project.description);
-            setTeams(response.data.teams);
+            console.log("response::", response.data);
+            if (response.data && response.data.project) {
+              console.log("entro al if");
+              setProject(response.data.project);
+              if (response.data.project.name) {
+                setProjectName(response.data.project.name);
+              }
+              setProject(response.data.project);
+              setProjectName(response.data.project.name);
+              setDescription(response.data.project.description);
+              setTeams(response.data.teams);
+              //setTasks(response.data.tasks);
+            }else{
+              console.error('El proyecto no está definido en la respuesta');
+            }  
         console.log("response.data", response.data);
         }catch(error){
             console.error('error:', error); }
@@ -51,6 +67,7 @@ const EditProject: React.FC = () => {
 
     const deleteteam = async (idteam: string) => {
         try{
+            console.log("ENDPOINT_MS_PROJECT}/deleteTeam en editProject.tsx",ENDPOINT_MS_PROJECT);
             const queryResponse = await axios.post(`${ENDPOINT_MS_PROJECT}/deleteTeam`, {
             idTeam: idteam,
             idProject: storedId.id,
@@ -76,6 +93,7 @@ const EditProject: React.FC = () => {
     
         try {
           setIsSaving(true); // Inicia la solicitud
+          console.log("ENDPOINT_MS_PROJECT}/update-project en editProject.tsx",ENDPOINT_MS_PROJECT);
           const queryResponse = await axios.patch(`${ENDPOINT_MS_PROJECT}/update-project`, {
             id: storedId.id,
             name: projectName,
@@ -116,6 +134,12 @@ const EditProject: React.FC = () => {
                 style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
                 onPress={() => updateProject()}>Save</Button>
 
+            <Button
+            mode="contained"
+            style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
+            onPress={() => router.push(`/project/backlog?id=${storedId.id}`)}>backlog</Button>  
+
+
         <Header> Teams</Header>
         {loading ? (
           <Text>Loading...</Text>
@@ -153,6 +177,8 @@ const EditProject: React.FC = () => {
         ): (
             <Text>No hay equipos en el proyecto</Text>
           )}
+
+        
         </View>
         </KeyboardAvoidingView>
     )
