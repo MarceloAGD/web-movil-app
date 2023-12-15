@@ -89,7 +89,7 @@ const TeamsMember: React.FC = () => {
   
   return (
       <View style={styles.container}>
-        <View>
+        <View style={{marginTop: 50, alignSelf: 'center'}}>
         <Header> Teams</Header>
         </View>
         {loading ? (

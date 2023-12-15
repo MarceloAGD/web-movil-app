@@ -25,7 +25,7 @@ export default function TabLayout() {
         name="projects"
         options={{
           title: 'Projects',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="tasks" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>

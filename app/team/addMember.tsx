@@ -61,7 +61,7 @@ const addMember: React.FC = () => {
 
     return(
         <KeyboardAvoidingView behavior='height' style={styles.container}>
-            <View style={{marginTop: 50}}>
+            <View style={{marginTop: 50, alignSelf: 'center'}}>
             <Header> Add Member</Header>
             <TextInput
             style={styles.input}
@@ -69,7 +69,7 @@ const addMember: React.FC = () => {
             value={newMemberEmail}
             onChangeText={(text) => setNewMemberEmail(text)}
             />
-            </View>
+            
             <Button
             mode="contained"
             style={{ marginBottom: 20, backgroundColor: theme.colors.primary }}
@@ -81,7 +81,7 @@ const addMember: React.FC = () => {
             >
                 Add new member
             </Button>
-            
+            </View>
         </KeyboardAvoidingView> 
     )
     

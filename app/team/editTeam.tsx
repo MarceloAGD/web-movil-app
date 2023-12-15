@@ -99,7 +99,7 @@ const EditTeam: React.FC = () => {
     return(
         <KeyboardAvoidingView behavior='height' style={styles.container}>
         
-        <View style={{marginTop: 50}}>
+        <View style={{marginTop: 50, alignSelf: 'center'}}>
         <Header> {team?.name}</Header>
         <TextInput
               style={styles.input}

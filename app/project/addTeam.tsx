@@ -20,10 +20,10 @@ interface team {
 const addTeam: React.FC = () => {
 
     const router = useRouter();
-
+    const {idProject} = useUserStore();
     const [newTeamName, setNewTeamName] = useState('');
 
-    const storedIdProject = useLocalSearchParams<{id: string; storedIdProject?: string }>();
+    const storedIdProject = idProject
     
     const [teams, setTeams] = useState<team[]>([]);
 
@@ -38,12 +38,9 @@ const addTeam: React.FC = () => {
     const addNewTeam = async (newTeamName: string) => {
         
         try{
-            console.log("storedIdTeam en addTeam/en el try", storedIdProject);
-            //TODO: veridicar que el correo exista en la base de datos de usuarios
-            console.log("ENDPOINT_MS_PROJECT}/addTeam en addTeam.tsx",ENDPOINT_MS_PROJECT);
             const queryResponse = await axios.post(`${ENDPOINT_MS_PROJECT}/addTeam`, {
             nameNewTeam: newTeamName,
-            idProject: storedIdProject.id,
+            idProject: storedIdProject,
 
             });
             
@@ -70,7 +67,7 @@ const addTeam: React.FC = () => {
     
     return(
         <KeyboardAvoidingView behavior='height' style={styles.container}>
-            <View style={{marginTop: 50}}>
+            <View style={{marginTop: 50, alignSelf: 'center'}}>
             <Header> Add Team</Header>
             <Picker
             style={styles.input}
@@ -81,7 +78,7 @@ const addTeam: React.FC = () => {
                         <Picker.Item key={team.id} label={team.name} value={team.name} />
                     ))}
                 </Picker>
-            </View>
+            
             <Button
             mode="contained"
             style={{ marginTop: 20, backgroundColor: theme.colors.primary }}
@@ -93,7 +90,7 @@ const addTeam: React.FC = () => {
             >
                 Add new Team
             </Button>
-            
+            </View>
         </KeyboardAvoidingView> 
     )
     

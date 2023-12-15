@@ -23,12 +23,16 @@ export default function TabOneScreen() {
   const { email } = useUserStore();
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
+  const {idProject, setIdProject} = useUserStore()
 
   useEffect(() => {
     loadUserData();
   }, []);
 
-
+  const handlePage = (id: number) => {
+    setIdProject(id);
+    router.push(`/project/backlog?id=${id}`);
+  }
 
   const loadUserData = async () => {
  
@@ -130,7 +134,7 @@ export default function TabOneScreen() {
 
   return (
     <KeyboardAvoidingView behavior='height' style={styles.container}>
-    <View style={{marginTop: 0,}}>
+    <View style={{marginTop: 0, alignSelf: 'center'}}>
         <Header> Project Management</Header>
         <TextInput
           style={styles.input}
@@ -161,7 +165,7 @@ export default function TabOneScreen() {
         >
           Add Project
         </Button>
-        </View>
+        
         <Header> Projects of {name}</Header>
         {loading ? (
           <Text>Loading...</Text>
@@ -171,7 +175,7 @@ export default function TabOneScreen() {
             <Button
             mode="contained"
             style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
-            onPress={() => router.push(`/project/editProject?id=${project.id}`)}>
+            onPress={() => handlePage(project.id)}>
             {project.name}
             </Button>
             
@@ -228,7 +232,7 @@ export default function TabOneScreen() {
           ) : (
             <Text>No projects created</Text>
           )}
-      
+      </View>
       </KeyboardAvoidingView>
   );
 }

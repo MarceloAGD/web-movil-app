@@ -134,7 +134,7 @@ const TeamsOwner: React.FC = () => {
   return (
       <KeyboardAvoidingView behavior='height' style={styles.container}>
         
-      <View style={{marginTop: 50}}>
+      <View style={{marginTop: 50, alignSelf: 'center'}}>
         <Header> Team Management</Header>
         <TextInput
           style={styles.input}
@@ -165,7 +165,7 @@ const TeamsOwner: React.FC = () => {
         >
           Add team
         </Button>
-        </View>
+        
         <Header> Teams of {name}</Header>
         {loading ? (
           <Text>Loading...</Text>
@@ -227,6 +227,7 @@ const TeamsOwner: React.FC = () => {
           ) : (
             <Text>No teams created</Text>
           )}
+          </View>
       </KeyboardAvoidingView>
   );
 };
