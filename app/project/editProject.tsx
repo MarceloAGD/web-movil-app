@@ -16,15 +16,13 @@ interface Project {
   }
   
   interface TeamData {
-    id: string;
-    name: string;
-    description: string;
+    team:{
+      id: string;
+      name: string;
+      description: string;
+    };
   }
-  interface TaskData {
-    id: string;
-    name: string;
-    description: string;
-  }
+ 
 
 
 const EditProject: React.FC = () => {
@@ -34,7 +32,7 @@ const EditProject: React.FC = () => {
     const storedId = useLocalSearchParams<{id: string; storedId?: string }>();
     const [project, setProject] = useState<Project| null>(null);
     const [teams, setTeams] = useState<TeamData[]>([]);
-    const [tasks, setTasks] = useState<TaskData[]>([]);
+    //const [tasks, setTasks] = useState<TaskData[]>([]);
     const [loading, setLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
@@ -47,6 +45,7 @@ const EditProject: React.FC = () => {
             console.log("storedId.id en editProject.tsx",storedId.id);
             console.log("ENDPOINT_MS_PROJECT}/storedId.id en editProject.tsx",ENDPOINT_MS_PROJECT)
             const response = await axios.get(`${ENDPOINT_MS_PROJECT}/${storedId.id}`);
+            console.log("response::", response.data);
             if (response.data && response.data.project) {
               console.log("entro al if");
               setProject(response.data.project);
@@ -57,7 +56,7 @@ const EditProject: React.FC = () => {
               setProjectName(response.data.project.name);
               setDescription(response.data.project.description);
               setTeams(response.data.teams);
-              setTasks(response.data.tasks);
+              //setTasks(response.data.tasks);
             }else{
               console.error('El proyecto no está definido en la respuesta');
             }  
@@ -146,14 +145,14 @@ const EditProject: React.FC = () => {
           <Text>Loading...</Text>
         ): teams.length > 0 ?(
             teams.map((team, index) => (
-                <View key={team.id} style={styles.teamItem}>
+                <View key={team?.team.id} style={styles.teamItem}>
                     <Text style={{marginRight: 10, fontWeight: 'bold'}}>{index + 1}</Text>
-                  <View key={team.id}>                
+                  <View key={team?.team.id}>                
                     <Text style={styles.title}>Name</Text>
-                    <Text>{team.name}</Text>
+                    <Text>{team?.team.name}</Text>
                   </View>
                 <TouchableOpacity
-              onPress={() => deleteteam(team.id)}
+              onPress={() => deleteteam(team?.team.id)}
               style={{
                 padding: 10,
                 paddingRight: 10,
@@ -179,22 +178,7 @@ const EditProject: React.FC = () => {
             <Text>No hay equipos en el proyecto</Text>
           )}
 
-        <Header> Tasks</Header>
-        {loading ? (
-          <Text>Loading...</Text>
-        ): tasks.length > 0 ?(
-            tasks.map((task, index) => (
-                <View key={task.id} style={styles.teamItem}>
-                    <Text style={{marginRight: 10, fontWeight: 'bold'}}>{index + 1}</Text>
-                  <View key={task.id}>                
-                    <Text style={styles.title}>Name</Text>
-                    <Text>{task.name}</Text>
-                  </View>
-                </View>
-            ))
-        ): (
-            <Text>No hay tareas en el proyecto</Text>
-          )}  
+        
         </View>
         </KeyboardAvoidingView>
     )

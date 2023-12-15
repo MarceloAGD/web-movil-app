@@ -10,10 +10,12 @@ import { theme } from "../../constants/theme";
 import { useUserStore } from "../../components/UseUserStore";
 
 interface TaskData {
+  task:{
     id: string;
     name: string;
     description: string;
-  }
+  };
+}
 
 const backlog: React.FC = () => {
     const router = useRouter();
@@ -28,29 +30,20 @@ const backlog: React.FC = () => {
 
 
     useEffect(() => {
-      loadTaskData();
-    }, [])
+      console.log("tasks:", tasks);
+      loadTaskData()
+    }, []);
+    
 
     const loadTaskData = async () => {
         try{
             console.log("storedId.id en editProject.tsx",storedId.id);
             console.log("ENDPOINT_MS_PROJECT}/storedId.id en backlog.tsx",ENDPOINT_MS_PROJECT)
             const response = await axios.get(`${ENDPOINT_MS_PROJECT}/${storedId.id}`);
-            if (response.data && response.data.project) {
-              console.log("entro al if");
-              
-              if (response.data.project.name) {
-                setProjectName(response.data.project.name);
-              }
-             
-              setProjectName(response.data.project.name);
-              setDescription(response.data.project.description);
-              
-              setTasks(response.data.tasks);
-            }else{
-              console.error('El proyecto no está definido en la respuesta');
-            }  
-        console.log("response.data", response.data);
+            //setProjectName(response.data.project.name);
+            //setDescription(response.data.project.description);
+            console.log("tasks en frontend:::", response.data.tasks);  
+            setTasks(response.data.tasks);
         }catch(error){
             console.error('error:', error); }
     }
@@ -113,13 +106,13 @@ const backlog: React.FC = () => {
           <Text>Loading...</Text>
         ): tasks.length > 0 ?(
             tasks.map((task, index) => (
-                <View key={task.id} style={styles.teamItem}>
+                <View key={task?.task.id} style={styles.teamItem}>
                     <Text style={{marginRight: 10, fontWeight: 'bold'}}>{index + 1}</Text>
-                  <View key={task.id}>                
+                  <View key={task?.task.id}>                
                     <Text style={styles.title}>Name</Text>
-                    <Text>{task.name}</Text>
+                    <Text>{task?.task.name || 'No Name'}</Text>
                     <Text style={styles.title}>Description</Text>
-                    <Text>{task.description}</Text>
+                    <Text>{task?.task.description || 'No Description'}</Text>
                   </View>
                 </View>
             ))
