@@ -178,13 +178,14 @@ export default function TabOneScreen() {
         ) : projects.length > 0 ? (
         projects.map((project: Project, index) => (
           <View key={index} style={styles.teamItem}>
+            {project && (
             <Button
             mode="contained"
             style={{ marginBottom: 10, backgroundColor: theme.colors.primary }}
             onPress={() => router.push(`/project/editProject?id=${project.id}`)}>
             {project.name}
             </Button>
-            
+            )}
              
             <Link
               href={{

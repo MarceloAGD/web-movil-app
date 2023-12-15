@@ -62,6 +62,7 @@ function RootLayoutNav() {
         <Stack.Screen name="team/addMember" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="profile/edit-profile" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="project/backlog" options={{presentation: 'fullScreenModal',headerShown: true , headerTitle: '', headerTransparent: true, headerTintColor: 'black'}}/>
       </Stack>
     </ThemeProvider>
   );
