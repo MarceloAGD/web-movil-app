@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, KeyboardAvoidingView, StyleSheet } from "react-native";
 import axios from "axios";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { ENDPOINT_MS_AUTH } from "@env";
+//import { ENDPOINT_MS_AUTH } from "@env";
 import Background from "../../components/Background";
 import { theme } from "../../constants/theme";
 import Header from "../../components/Header";
@@ -10,6 +10,7 @@ import container from "../../constants/container";
 import Button from "../../components/Button";
 
 export default function ResetPassword() {
+  const auth = process.env.ENDPOINT_MS_AUTH;
   const router = useRouter();
   const { email } = useLocalSearchParams<{ email?: string }>();
   const [password, setPassword] = useState("");
@@ -37,8 +38,8 @@ export default function ResetPassword() {
 
   const sendMail = async () => {
     try {
-      console.log("ENDPOINT_MS_AUTH}/recover en recovery.tsx", ENDPOINT_MS_AUTH);
-      await axios.post(`${ENDPOINT_MS_AUTH}/recover`, { email });
+      console.log("ENDPOINT_MS_AUTH}/recover en recovery.tsx", auth);
+      await axios.post(`${auth}/recover`, { email });
       setEmailSent(true);
       setNotification("Correo enviado");
       setCooldown(60); // Establecer el tiempo de espera en segundos (puedes ajustar esto según tus necesidades)
@@ -50,14 +51,14 @@ export default function ResetPassword() {
 
   const reset = async () => {
     try {
-      console.log("ENDPOINT_MS_AUTH}/reset en reset.tsx", ENDPOINT_MS_AUTH);
-      const response = await axios.post(`${ENDPOINT_MS_AUTH}/reset`, {
+      console.log("ENDPOINT_MS_AUTH}/reset en reset.tsx", auth);
+      const response = await axios.post(`${auth}/reset`, {
         token: code,
         password,
         passwordConfirm: confirmPassword,
       });
 
-      router.replace('/Login');
+      router.replace('/signIn/login');
     } catch (error) {
       console.error("Error reset password:", error);
     }

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback} from "react";
+import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
 import {
   View,
   Text,
@@ -15,8 +16,8 @@ import { theme } from "../../constants/theme";
 import { useUserStore } from "../../components/UseUserStore";
 import axios from "axios";
 import { ENDPOINT_MS_TEAM, ENDPOINT_MS_PROJECT } from "@env";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { SelectList } from 'react-native-dropdown-select-list'
+import { SelectList } from 'react-native-dropdown-select-list';
+
 interface team {
   id: number;
   name: string;
@@ -34,13 +35,13 @@ const addTeam: React.FC = () => {
   const [teams, setTeams] = useState<team[]>([]);
 
   useEffect(() => {
-    const loadteams = async () => {
+    loadteams();
+  }, []);
+
+  const loadteams = async () => {
       const teams = await axios.get(`${ENDPOINT_MS_TEAM}/teams`);
       setTeams(teams.data);
     };
-    loadteams();
-  });
-
   const addNewTeam = async (newTeamName: string) => {
     try {
       const queryResponse = await axios.post(`${ENDPOINT_MS_PROJECT}/addTeam`, {

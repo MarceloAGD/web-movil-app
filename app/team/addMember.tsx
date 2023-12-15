@@ -5,34 +5,50 @@ import { styles } from '../../constants/style';
 import Button from "../../components/Button";
 import { theme } from "../../constants/theme";
 import axios from "axios";
-import {ENDPOINT_MS_TEAM} from '@env';
+//import {ENDPOINT_MS_TEAM} from '@env';
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { SelectList } from 'react-native-dropdown-select-list';
+
+interface User{
+    id: number;
+    name: string;
+    email: string;
+}
 
 const addMember: React.FC = () => {
-
+    const team_url = process.env.ENDPOINT_MS_TEAM;
+    const ENDPOINT_MS_USER = process.env.ENDPOINT_MS_USER;
     const router = useRouter();
-
+    const [user, setUser]= useState<User[]>([]);
     const [newMemberEmail, setNewMemberEmail] = useState("");
 
     const storedIdTeam = useLocalSearchParams<{id: string; storedIdTeam?: string }>();
 
     useEffect(() => {
         loadTeamData();
+        loadUser();
     }, [])
     const loadTeamData = async () => {
         try{
-            console.log("ENDPOINT_MS_TEAM}/storedIdTeam.id en addMember.tsx",ENDPOINT_MS_TEAM);
-            const response = await axios.get(`${ENDPOINT_MS_TEAM}/${storedIdTeam.id}`);
+            console.log("ENDPOINT_MS_TEAM}/storedIdTeam.id en addMember.tsx", team_url);
+            const response = await axios.get(`${team_url}/${storedIdTeam.id}`);
         console.log("response.data", response.data);
         }catch(error){
             console.error('error:', error); }
     }
+
+    const loadUser = async () => {
+        const user = await axios.get(`${ENDPOINT_MS_USER}/users`);
+        setUser(user.data);
+      };
+
+
     const addNewMember = async () => {
         
         try{
             //TODO: veridicar que el correo exista en la base de datos de usuarios
-            console.log("ENDPOINT_MS_TEAM}/addMember en addMember.tsx",ENDPOINT_MS_TEAM);
-            const queryResponse = await axios.post(`${ENDPOINT_MS_TEAM}/addMember`, {
+            console.log("ENDPOINT_MS_TEAM}/addMember en addMember.tsx",team_url);
+            const queryResponse = await axios.post(`${team_url}/addMember`, {
             emailNewMember: newMemberEmail,
             idTeam: storedIdTeam.id,
 
@@ -63,12 +79,11 @@ const addMember: React.FC = () => {
         <KeyboardAvoidingView behavior='height' style={styles.container}>
             <View style={{marginTop: 50, alignSelf: 'center'}}>
             <Header> Add Member</Header>
-            <TextInput
-            style={styles.input}
-            placeholder="new member email"
-            value={newMemberEmail}
-            onChangeText={(text) => setNewMemberEmail(text)}
-            />
+            <SelectList
+            setSelected={(value: string) => setNewMemberEmail(value)}
+            save="value"
+            data={user.map((user) => ({key: user.id, value: user.email }))}
+        />
             
             <Button
             mode="contained"

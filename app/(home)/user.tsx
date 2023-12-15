@@ -7,7 +7,7 @@ import { IconButton } from 'react-native-paper';
 import { useUserStore } from "../../components/UseUserStore";
 import { theme } from "../../constants/theme";
 import axios from "axios";
-import { ENDPOINT_MS_AUTH } from "@env";
+//import { ENDPOINT_MS_AUTH } from "@env";
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import {
 } from "react-native";
 
 export default function User() {
+  const ENDPOINT_MS_AUTH = process.env.ENDPOINT_MS_AUTH;
   const router = useRouter();
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');

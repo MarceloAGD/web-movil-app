@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, View, TextInput, Text, Alert, TouchableOpacity} f
 import { styles } from '../../constants/style';
 import { useRouter, useLocalSearchParams } from "expo-router";
 import axios from "axios";
-import {ENDPOINT_MS_PROJECT, ENDPOINT_MS_TEAM} from '@env';
+//import {ENDPOINT_MS_PROJECT, ENDPOINT_MS_TEAM} from '@env';
 import Header from "../../components/Header";
 import { theme } from "../../constants/theme";
 import { IconButton } from "react-native-paper";
@@ -27,6 +27,8 @@ interface Project {
 
 
 const EditProject: React.FC = () => {
+  const ENDPOINT_MS_PROJECT = process.env.ENDPOINT_MS_PROJECT;
+  const ENDPOINT_MS_TEAM = process.env.ENDPOINT_MS_TEAM;
     const router = useRouter();
     const [projectName, setProjectName] = useState("");
     const [description, setDescription] = useState('');

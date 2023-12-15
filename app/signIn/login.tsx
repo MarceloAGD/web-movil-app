@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import {Link, useRouter} from "expo-router";
 
-import {ENDPOINT_MS_AUTH} from '@env';
+//import {ENDPOINT_MS_AUTH} from '@env';
 
 import { useUserStore } from "../../components/UseUserStore";
 import Header from "../../components/Header";
@@ -13,6 +13,7 @@ import {Text, TextInput, View, KeyboardAvoidingView} from "react-native";
 import container from "../../constants/container";
 
 export default function Login() {
+  const auth = process.env.ENDPOINT_MS_AUTH;
   const router = useRouter()
   const [emailUser, setEmailUser] = useState({ value: 'mguerradubo@gmail.com', error: '' });
   const [password, setPassword] = useState({ value: 'marcelo', error: '' });
@@ -22,7 +23,7 @@ export default function Login() {
   
   const login = async (emailUser: string, password: string) => {
     try {
-      const response = await axios.post(`${ENDPOINT_MS_AUTH}/login`, {
+      const response = await axios.post(`${auth}/login`, {
         email: emailUser,
         password: password,
       });

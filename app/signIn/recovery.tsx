@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView} from "react-native";
 import axios from "axios";
 import {Link, useRouter} from "expo-router";
-import { ENDPOINT_MS_AUTH} from "@env";
+//import { ENDPOINT_MS_AUTH} from "@env";
 import Background from "../../components/Background";
 import { theme } from "../../constants/theme";
 import Header from "../../components/Header";
@@ -11,6 +11,7 @@ import Button from "../../components/Button";
 import container from "../../constants/container";
 
 export default function ResetPassword() {
+  const auth = process.env.ENDPOINT_MS_AUTH;
   const router = useRouter()
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(true);
@@ -18,8 +19,8 @@ export default function ResetPassword() {
 
   const sendMail = async () => {
     try {
-      console.log("ENDPOINT_MS_AUTH}/recover en recovery.tsx",ENDPOINT_MS_AUTH)
-      await axios.post(`${ENDPOINT_MS_AUTH}/recover`, { email });
+      console.log("ENDPOINT_MS_AUTH}/recover en recovery.tsx",auth)
+      await axios.post(`${auth}/recover`, { email });
       setEmailSent(true);
       setNotification("Correo enviado");
       router.push('/signIn/reset');

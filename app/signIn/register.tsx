@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import {useRouter} from "expo-router";
-import {ENDPOINT_MS_USER} from '@env';
+//import {ENDPOINT_MS_USER} from '@env';
 import Background from "../../components/Background";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
@@ -12,6 +12,7 @@ import { KeyboardAvoidingView, TextInput, View} from "react-native";
 import container from "../../constants/container";
 
 export default function SignUp() {
+  const user_url = process.env.ENDPOINT_MS_USER;
   const router = useRouter()
   const [name, setName] = useState({ value: '', error: '' });
   const [lastname, setLastname] = useState({ value: '', error: '' });
@@ -22,7 +23,7 @@ export default function SignUp() {
   const signUp = async (name: string, lastname: string, email: string, password: string) => {
     
         const response = await axios.post(
-          `${ENDPOINT_MS_USER}/sign-up`,
+          `${user_url}/sign-up`,
           {
             name,
             lastname,

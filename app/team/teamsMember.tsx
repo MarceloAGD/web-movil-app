@@ -4,7 +4,7 @@ import Button from "../../components/Button";
 import Header from "../../components/Header";
 import { theme } from "../../constants/theme";
 import { IconButton } from "react-native-paper";
-import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER, ENDPOINT_MS_TEAM} from "@env";
+//import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER, ENDPOINT_MS_TEAM} from "@env";
 import axios from "axios";
 import { useUserStore } from "../../components/UseUserStore";
 import { useRouter, Link } from "expo-router";
@@ -13,6 +13,10 @@ import { styles } from '../../constants/style';
 
 
 const TeamsMember: React.FC = () => {
+  const ENDPOINT_MS_AUTH = process.env.ENDPOINT_MS_AUTH;
+  const ENDPOINT_MS_TEAM = process.env.ENDPOINT_MS_TEAM;
+  const ENDPOINT_MS_PROJECT = process.env.ENDPOINT_MS_PROJECT;
+
   const router = useRouter();
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState('')

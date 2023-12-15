@@ -11,14 +11,18 @@ import {
 } from "react-native";
 import { useUserStore } from "../../components/UseUserStore";
 import { styles } from "../../constants/style";
-import { ENDPOINT_MS_PROJECT, ENDPOINT_MS_TASK } from "@env";
+//import { ENDPOINT_MS_PROJECT, ENDPOINT_MS_TASK } from "@env";
 import axios from "axios";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import { theme } from "../../constants/theme";
 import DatePicker from 'react-native-date-picker'
+import { router, useRouter } from "expo-router";
 
 const addTask: React.FC = () => {
+  const ENDPOINT_MS_PROJECT = process.env.ENDPOINT_MS_PROJECT;
+  const ENDPOINT_MS_TASK = process.env.ENDPOINT_MS_TASK;
+  const router = useRouter();
   const { idProject } = useUserStore();
   const storedId = idProject;
   const { email } = useUserStore();
@@ -38,21 +42,22 @@ const addTask: React.FC = () => {
     const response = await axios.post(`${ENDPOINT_MS_TASK}/createTask`, {
       name: newTaskName,
       emailCreator: email,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: new Date(),
+      endDate: new Date(),
       idProject: storedId,
     });
 
     //const user = await axios.post(`${ENDPOINT_MS_USER}/addTeamToUser`, {userId: id, teamId: response.data.idTeam})
     if (response.data.success) {
-      console.log("Equipo creado exitosamente");
-      Alert.alert("Equipo creado exitosamente");
+      console.log("Tarea creada exitosamente");
+      Alert.alert("Tarea creada exitosamente");
+      router.back();
       // Resto del código para cargar los equipos, etc.
     } else {
       // El equipo ya existe, muestra una alerta.
       Alert.alert(
-        "Equipo Existente",
-        "El equipo que intentas agregar ya existe."
+        "Tarea Existente",
+        "La tarea que intentas agregar ya existe."
       );
     }
     setNewTaskName("");
@@ -76,18 +81,8 @@ const addTask: React.FC = () => {
           value={description}
           onChangeText={(text) => setDescription(text)}
         />
-       <TextInput
-            style={styles.input}
-            placeholder="Start date"
-            value={startDate}
-            onChangeText={(text) => setStartDate(text)}
-            />
-        <TextInput
-        style={styles.input}
-        placeholder="End date"
-        value={endDate}
-        onChangeText={(text) => setEndDate(text)}
-        /></View>
+       
+        </View>
         <Button 
             mode="contained"
           style={{ marginBottom: 10, backgroundColor: theme.colors.primary , width: 200, alignSelf: 'center'}}

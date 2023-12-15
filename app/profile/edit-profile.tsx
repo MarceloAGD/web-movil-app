@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useRouter } from "expo-router";
-import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER } from '@env';
+//import { ENDPOINT_MS_AUTH, ENDPOINT_MS_USER } from '@env';
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import { KeyboardAvoidingView, TextInput, View } from "react-native";
@@ -13,6 +13,8 @@ import { styles } from '../../constants/style';
 import { SelectList } from 'react-native-dropdown-select-list'
 
 const EditProfile: React.FC = () => {
+  const ENDPOINT_MS_AUTH = process.env.ENDPOINT_MS_AUTH;
+  const ENDPOINT_MS_USER = process.env.ENDPOINT_MS_USER;
   const router = useRouter();
   const { accessToken, setAccessToken, email } = useUserStore();
   const [name, setName] = useState('');
